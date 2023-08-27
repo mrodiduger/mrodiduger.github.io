@@ -95,4 +95,5 @@ $$
 \displaylines{\textrm{Let } n= p \cdot q \textrm{  and }p \textrm{ and } q \textrm{ are coprime} \\  \phi(n)=\phi(p \cdot q) = \phi(p) \cdot \phi(q)}
 $$
 
+
 Multiplicative property of Euler’s totient function is actually not a trivial property. We can prove this property using Chinese Remainder Theorem (CRT). 
