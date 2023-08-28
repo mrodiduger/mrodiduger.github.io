@@ -20,5 +20,7 @@ Hello, I'm Rodi. I'm currently studying computer science at the Karlsruhe Instit
 
 As an undergrad, I'm still figuring out my research interests and exploring the possibilities ahead. I'm planning to use this personal website as my blogging space – feel free to drop by and check out my blog! 😊
 
+I'm also really into photography, you can see some of my work in the "photo portfolio" page :)
+
 
 
