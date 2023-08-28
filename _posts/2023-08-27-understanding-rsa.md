@@ -18,7 +18,7 @@ While searching the internet for a somehow in-depth article on the mathematics u
 
 # What is RSA ? 
 
-RSA, or Rivest-Shamir-Adleman, is a public-key encryption system. It was introduced way back in 1977, making it quite old, but surprisingly, it's still widely used today (although it should not be used anymore) . Now, you might be thinking, "Why write a blog post about an ‘ancient’ encryption method?" Well, that's a fair question. The thing is, RSA isn't just a relic – it's got an educational treasure trove. It's a great example of how the difficulty of prime factorization can be turned into a one-way function. 
+RSA, or Rivest-Shamir-Adleman, is a public-key encryption system. It was introduced way back in 1977, making it quite old, but surprisingly, it's still widely used today (although it should not be used anymore[¹](https://blog.trailofbits.com/2019/07/08/fuck-rsa/)) . Now, you might be thinking, "Why write a blog post about an ‘ancient’ encryption method?" Well, that's a fair question. The thing is, RSA isn't just a relic – it's got an educational treasure trove. It's a great example of how the difficulty of prime factorization can be turned into a one-way function. 
 
 First, we'll take a brief look at how RSA generates keys, encrypts, and decrypts data. Then, we'll explore the math behind it, which will help us grasp why RSA was designed the way it is.
 
@@ -34,7 +34,7 @@ $$
 n = p \cdot q
 $$
 
-- **Evaluate Euler’s Phi (totient) function at _n_:** This is an important step but we will discuss the equation below later as we move forward.
+- **Evaluate Euler’s Phi (totient) function at $$n$$:** This is an important step but we will discuss the equation below later as we move forward.
 
 $$
 \phi (n) =  (p-1) \cdot (q-1)
@@ -96,4 +96,86 @@ $$
 $$
 
 
-Multiplicative property of Euler’s totient function is actually not a trivial property. We can prove this property using Chinese Remainder Theorem (CRT). 
+Multiplicative property of Euler’s totient function is actually not a trivial property. We can prove this property using Chinese Remainder Theorem (CRT).
+
+## Chinese Remainder Theorem
+
+The Chinese Remainder Theorem (CRT) is a fundamental theorem in number theory that deals with solving systems of simultaneous modular congruences. It provides a way to find a unique solution to a set of congruences when the moduli involved are pairwise coprime (i.e., they have no common factors other than 1). The theorem is named after its historical association with ancient Chinese mathematics.
+
+**Theorem:** 
+
+Let $$n_1​,n_2​,…,n_k$$ be pairwise coprime positive integers and let $$a_1,a_2,...,a_k$$ be any set of integers. Then the system of modular congruences
+
+$$
+\displaylines{x \equiv a_1 \;(mod \;n_1)\\x \equiv a_2 \;(mod \; n_2)\\.\\.\\x \equiv \; a_k \; (mod \; n_k) }
+$$
+
+has a **unique** solution in $$mod \; N$$, whereas $$N:= n_1 \cdot n_2 \cdot...\cdot n_k$$
+
+Essentially, what the thorem states is that, the map 
+
+$$
+x \; mod \; N \mapsto (x \; mod \; n_1,x \; mod \; n_2,...,x \; mod \; n_k )
+$$
+
+defines an isomorphism between $$\mathbb{Z}/N\mathbb{Z}$$ and $$\mathbb{Z}/n_1\mathbb{Z}\times\mathbb{Z}/n_2\mathbb{Z}\times...\times\mathbb{Z}/n_k\mathbb{Z}$$
+
+<br/>
+<br/>
+<br/>
+
+Of course, I'm not going to delve into a formal proof explaining why Euler's totient function acts as a multiplicative function under certain assumptions. However, what's essential to recognize here is that the isomorphism between these two rings leads to the pivotal observation of Euler's totient function possessing a multiplicative property. 
+
+
+There's another observation we can make about Euler's totient function, and it will come in handy as we proceed:
+
+---
+Let $$p$$ be a prime and $$k \geq1$$. Then the following equation holds:
+
+$$
+\phi(p^k) = p^k - p^{k-1}
+$$
+
+**Proof:** Since $$p$$ is a prime number, the only possible values of $$gcd(p^k, m)$$ are $$1, p, p^2, ..., p^k$$, and the only way to have $$gcd(p^k, m) > 1$$ is if $$m$$ is a multiple of $$p$$, that is, $$m \in {p, 2p, 3p, ..., p^{k − 1}p = pk}$$, and there are $$p^{k − 1}$$ such multiples not greater than $$p^k$$. Therefore, the other $$p^k − p^{k − 1}$$ numbers are all relatively prime to $$p^k$$.
+
+**Example:**
+Let's compute $$\phi(3^2)$$:
+
+$$
+\displaylines{gcd(0,9) = 9 \;\; ,\;\; gcd(1,9)=1  \;\; ,\;\;  gcd(2,9) = 1 \\ gcd (3,9) = 3  \;\; ,\;\;  gcd(4,9) = 1 \;\; ,\;\; gcd(5,9) = 1 \\gcd(6,9) = 3 \;\; ,\;\; gcd(7,9)=1  \;\; ,\;\;  gcd(8,9) = 1\\ \implies \phi(3^2) = 6 = 3^2 - 3^1}
+$$
+
+
+
+
+---
+
+Now let's take a look at the simpler approach to compute this function for any integer:
+
+---
+Let $$m$$ has the following prime factorization:
+
+$$
+m = p_1^{e_1}\cdotp_2^{e_2}\cdot...\cdot p_n^{e_n}
+$$
+
+whereas $$e_i \in \mathbb{N}$$. With a little assistance from our previous observation, we can assert the following:
+
+$$
+\phi(m) = \prod_{i=1}^n\phi(p_i^{e^i}) = \prod_{i=1}^n(p_i^{e_i} - p_i^{e_i -1})
+$$
+
+---
+
+Now it should be more clear how we computed $$\phi(n)$$ as $$\phi(n) = \phi(p) \cdot \phi(q)$$ in the key generation section. 
+
+Prime factorization of $$n$$ is $$n = p^1 \cdot q^1$$, then:
+
+
+$$\phi(n) = \phi(p^1 \cdot q^1) = \phi(p^1) \cdot \phi(q^1) = (p^1-p^0)\cdot(q^1-q^0) = (p-1)\cdot(q-1)
+$$
+
+This insight should shed light on why we generate prime numbers to generate keys in the first place. It's crucial to emphasize that this computation becomes feasible only when we possess the prime factorization of a given integer $$n$$. Yet, for a large $$n$$, it might prove impractical to factorize it into its prime components within a reasonable timeframe.
+
+
+
