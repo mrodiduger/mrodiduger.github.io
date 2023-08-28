@@ -175,7 +175,88 @@ Prime factorization of $$n$$ is $$n = p^1 \cdot q^1$$, then:
 $$\phi(n) = \phi(p^1 \cdot q^1) = \phi(p^1) \cdot \phi(q^1) = (p^1-p^0)\cdot(q^1-q^0) = (p-1)\cdot(q-1)
 $$
 
-This insight should shed light on why we generate prime numbers to generate keys in the first place. It's crucial to emphasize that this computation becomes feasible only when we possess the prime factorization of a given integer $$n$$. Yet, for a large $$n$$, it might prove impractical to factorize it into its prime components within a reasonable timeframe.
+This insight should shed light on why we generate prime numbers to generate keys in the first place. It's crucial to emphasize that this computation becomes feasible only when we possess the prime factorization of a given integer $$n$$. Yet, for a large $$n$$, it might prove impractical to factorize it into its prime components within a reasonable timeframe. Exactly for this reason, we emphasize that **"RSA uses the complexity of prime factorization to guarantee its security,"** as this very characteristic forms the heart of the RSA cryptosystem. 
+
+If we're aware of the prime factors of a specific number $$n$$, we can efficiently calculate the Euler's totient function $$\phi(n)$$, allowing for efficient decryption. However, when we lack knowledge of the prime factors of $$n$$ efficiently computing $$\phi(n)$$ becomes a daunting task. We could resort to a brute-force approach, yet this becomes unfeasible when dealing with significantly large values of $$n$$, because of the immense time it would demand.
+
+---
+
+Now that we've understood some key features of Euler's totient function that are vital for key generation, let's address the question: **"Why do we even use Euler's totient function?"**
+
+Let's explore the answer.
+
+# Euler's Theorem
+
+Euler's Theorem is integral to the security and functioning of RSA encryption. The use of modular exponentiation in both encryption and decryption operations leverages Euler's Theorem. Here's how:
+
+---
+**Euler's Theorem:** 
+
+
+Let $$a$$ and $$m$$ positive coprime integers ($$gcd(a,m)=1$$), then:
+
+$$
+a^{\phi(m)} \equiv 1 \; (mod \; m)
+$$
+
+**Example:**
+
+Let $$m =10$$ and $$a=3$$. 
+
+Since $$ gcd(10,3) = 1 $$,  $$\;a^{\phi(m)}$$ should be equivalent to $$1 \; (mod \; m)$$. Let's check:
+
+$$
+\phi(m) = \phi(10) = \phi(5 \cdot 2) = (5-1) \cdot (2-1) = 4
+$$
+
+$$
+a^{\phi(m)} = 3^4 =81 \equiv 1 \; (mod \; 10)
+$$
+
+---
+
+Unfortunately, I'm not a mathematician. :/ So, I don't want to explain a proof, which I'm not really familiar with. Let's just accept Euler's theorem as a given truth, which, in fact, it is :D
+
+Let's now look at a special case of Euler's Theorem, which is Fermat's Little Theorem !
+
+---
+**Fermat's Little Theorem:**
+
+
+Let $$a$$ be a positive integer and $$p$$ be a prime. Then:
+
+$$
+a^p \equiv a \; (mod \; p)
+$$
+
+$$
+\iff
+$$
+
+$$
+a^{p-1} \equiv 1 \; (mod \; p)
+$$
+
+**Proof**: Fermat's Little Theorem is basically a special case of Euler's theorem, if the modulo is a prime number.
+
+Let $$a$$ be a positive integer and $$p$$ be a prime.
+
+Since $$p$$ is a prime, $$gcd(a,p)=1$$. Using Euler's Theorem:
+
+$$
+a^{\phi(p)} \equiv 1 \; (mod \; p) 
+$$
+
+We know that $$\phi(p) = p-1$$, if $$p$$ is a prime.
+
+$$
+\implies a^{p-1} \equiv 1 \; (mod \; p)
+$$
+
+---
+
+Now, we have all the tools we need to prove, that the $$Enc(pk,m)$$ and $$Dec(sk,c)$$ operations of the RSA cryptosystem are inverse of each other.
+
 
 
 
