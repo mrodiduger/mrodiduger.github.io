@@ -136,7 +136,7 @@ $$
 \phi(p^k) = p^k - p^{k-1}
 $$
 
-**Proof:** Since $$p$$ is a prime number, the only possible values of $$gcd(p^k, m)$$ are $$1, p, p^2, ..., p^k$$, and the only way to have $$gcd(p^k, m) > 1$$ is if $$m$$ is a multiple of $$p$$, that is, $$m \in {p, 2p, 3p, ..., p^{k − 1}p = pk}$$, and there are $$p^{k − 1}$$ such multiples not greater than $$p^k$$. Therefore, the other $$p^k − p^{k − 1}$$ numbers are all relatively prime to $$p^k$$[²](https://en.wikipedia.org/wiki/Euler%27s_totient_function).
+**Proof:** Since $$p$$ is a prime number, the only possible values of $$gcd(p^k, m)$$ are $$1, p, p^2, ..., p^k$$, and the only way to have $$gcd(p^k, m) > 1$$ is if $$m$$ is a multiple of $$p$$, that is, $$m \in {p, 2p, 3p, ..., p^{k − 1} \cdot p = p^k}$$, and there are $$p^{k − 1}$$ such multiples not greater than $$p^k$$. Therefore, the other $$p^k − p^{k − 1}$$ numbers are all relatively prime to $$p^k$$[²](https://en.wikipedia.org/wiki/Euler%27s_totient_function).
 
 **Example:**
 Let's compute $$\phi(3^2)$$:
@@ -156,7 +156,7 @@ Now let's take a look at the simpler approach to compute this function for any i
 Let $$m$$ has the following prime factorization:
 
 $$
-m = p_1^{e_1}\cdotp_2^{e_2}\cdot...\cdot p_n^{e_n}
+m = p_1^{e_1} \cdot p_2^{e_2}\cdot...\cdot p_n^{e_n}
 $$
 
 whereas $$e_i \in \mathbb{N}$$. With a little assistance from our previous observation, we can assert the following:
@@ -223,10 +223,18 @@ Let's now look at a special case of Euler's Theorem, which is Fermat's Little Th
 **Fermat's Little Theorem:**
 
 
-Let $$a$$ be a positive integer and $$p$$ be a prime. Then:
+Let $$a$$ be a positive integer, $$p$$ be a prime and $$gcd(a,p) = 1$$. Then:
 
 $$
 a^p \equiv a \; (mod \; p)
+$$
+
+$$
+\iff
+$$
+
+$$
+a \cdot (a^{p-1} -1) \equiv 0 \; (mod \; p)
 $$
 
 $$
@@ -239,9 +247,9 @@ $$
 
 **Proof**: Fermat's Little Theorem is basically a special case of Euler's theorem, if the modulo is a prime number.
 
-Let $$a$$ be a positive integer and $$p$$ be a prime.
+Let $$a$$ be a positive integer, $$p$$ be a prime and $$gcd(a,p) = 1$$.
 
-Since $$p$$ is a prime, $$gcd(a,p)=1$$. Using Euler's Theorem:
+Since $$gcd(a,p)=1$$, using Euler's Theorem:
 
 $$
 a^{\phi(p)} \equiv 1 \; (mod \; p) 
