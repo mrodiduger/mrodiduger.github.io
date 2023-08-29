@@ -2,7 +2,7 @@
 
 layout: post
 title: "Understanding RSA: Number Theory,Primes, Fermat, Euler and such"
-date: 2023-08-29 11:12:00-0400
+date: 2023-08-28 11:12:00-0400
 description:
 tags: cryptography rsa math euler fermat 
 categories: cryptography
