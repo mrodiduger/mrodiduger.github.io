@@ -1,7 +1,7 @@
 ---
 layout: distill
-title: 'Flash Attention: A Brief Overview'
-description: 
+title: "Flash Attention: A Brief Overview"
+description:
 tags: flash attention machine learning
 giscus_comments: true
 date: 2024-08-02
@@ -30,15 +30,14 @@ toc:
   - name: Vanilla Attention
   - name: Flash Attention
   - subsections:
-    - name: Tiling
-    - name: Recomputation
+      - name: Tiling
+      - name: Recomputation
   - name: Experimental Results
-
 ---
 
 ## Introduction
 
-Transformer architecture <d-cite key="aiayn"></d-cite> has been a milestone for many deep learning application areas, particularly in NLP domain as the backbone of most large language models (LLMs). Scaling up these models has been the key factor allowing them to achieve their high levels of performance and capabilities <d-cite key="scaling_laws_openai,scaling_laws_deepmind"></d-cite>. As the models grow larger, trained on more data with increased computational resources, they are able to learn more comprehensive patterns and representations, leading to improvements in understanding and generating human language as well as solving complex tasks <d-cite key="emergent_cap"></d-cite>.  
+Transformer architecture <d-cite key="aiayn"></d-cite> has been a milestone for many deep learning application areas, particularly in NLP domain as the backbone of most large language models (LLMs). Scaling up these models has been the key factor allowing them to achieve their high levels of performance and capabilities <d-cite key="scaling_laws_openai,scaling_laws_deepmind"></d-cite>. As the models grow larger, trained on more data with increased computational resources, they are able to learn more comprehensive patterns and representations, leading to improvements in understanding and generating human language as well as solving complex tasks <d-cite key="emergent_cap"></d-cite>.
 
 The core component of the Transformer architecture is the attention mechanism, which allows embeddings to incorporate contextual information. The standard implementation of the attention mechanism is slow due to its quadratic time and memory complexity and hence becomes a computational bottleneck, especially for long sequences. As a consequence, a primary challenge with scaling up these models is efficiency.
 
@@ -66,7 +65,7 @@ Many approaches have been proposed to address the quadratic time and memory comp
 
 ## Vanilla Attention
 
-In its simplified form without the scaling factor before applying the softmax, the vanilla attention computation can be written as 
+In its simplified form without the scaling factor before applying the softmax, the vanilla attention computation can be written as
 
 $$
 O = \text{softmax}(QK^T)V,
@@ -75,30 +74,29 @@ $$
 where $$O,Q,K,V \in \mathbb{R}^{N \times d} $$.
 The vanilla attention algorithm computes the output as following:
 
--   Load $$Q$$ and $$K$$ by blocks from HBM to SRAM \| <span
-    style="color: red">IO operation !</span>
+- Load $$Q$$ and $$K$$ by blocks from HBM to SRAM \| <span
+  style="color: red">IO operation !</span>
 
--   Compute the intermediate result $$S_0 = QK^T\in \mathbb{R}^{N \times N}$$
+- Compute the intermediate result $$S_0 = QK^T\in \mathbb{R}^{N \times N}$$
 
--   Write the intermediate result $$S_0$$ to HBM \| <span
-    style="color: red">IO operation !</span>
+- Write the intermediate result $$S_0$$ to HBM \| <span
+  style="color: red">IO operation !</span>
 
--   Load *$$S_0$$ from HBM to SRAM \| <span style="color: red">IO
-    operation !</span>
+- Load \*$$S_0$$ from HBM to SRAM \| <span style="color: red">IO
+  operation !</span>
 
--   Apply softmax to $$S_0$$ along the second dimension, which
-    results in the intermediate result
-    $$S_1 = \text{softmax}(S_0) \in \mathbb{R}^{N \times N}$$
+- Apply softmax to $$S_0$$ along the second dimension, which
+  results in the intermediate result
+  $$S_1 = \text{softmax}(S_0) \in \mathbb{R}^{N \times N}$$
 
--   Write $$S_1$$ to HBM \| <span style="color: red">IO
-    operation !</span>
+- Write $$S_1$$ to HBM \| <span style="color: red">IO
+  operation !</span>
 
--   Load $$S_1$$  and $$V$$ by blocks from HBM to SRAM
+- Load $$S_1$$ and $$V$$ by blocks from HBM to SRAM
 
--   Compute the output $$O = S_1V$$
+- Compute the output $$O = S_1V$$
 
--   Write $$O$$ to HBM \| <span style="color: red">IO operation !</span>
-
+- Write $$O$$ to HBM \| <span style="color: red">IO operation !</span>
 
 Even in its most simplified form, attention computation requires data to move between HBM and SRAM several times due to the limited capacity of SRAM, which is e.g. approximately 20 MB in the NVIDIA A100, given it contains 108 streaming multiprocessors each equipped with 192 KB of SRAM <d-cite key="nvidiaa100"></d-cite>. Additional memory-bound operations, such as masking and dropout, also increase the IO overhead of the computation.
 
@@ -119,7 +117,7 @@ In contrast to the vanilla attention algorithm, FlashAttention computes exact at
 
 # Tiling
 
-A major challenge in tiling the attention computation lies in the non-associative nature of the softmax function. Traditionally, softmax of a vector $$x \in \mathbb{R}^d$$, which can be thought as a row of the intermediate result $$S_0$$, is computed using an algorithm called "safe softmax" for numerical stability as  in Algorithm 1.
+A major challenge in tiling the attention computation lies in the non-associative nature of the softmax function. Traditionally, softmax of a vector $$x \in \mathbb{R}^d$$, which can be thought as a row of the intermediate result $$S_0$$, is computed using an algorithm called "safe softmax" for numerical stability as in Algorithm 1.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -149,7 +147,7 @@ In the context of performance optimization, recomputation refers to the concept 
 
 ## Experimental Results
 
-In this section, we analyze the experimental results of the FlashAttention.Figure 3 demonstrates the reduction in HBM memory usage compared to the vanilla attention algorithm. Since FlashAttention does not materialize the $$N \times N$$ intermediate matrices, it only requires $$O(N)$$ additional HBM memory for the output and softmax statistics as opposed to $$O(N^2)$$ memory requirement of the vanilla attention algorithm. This results in a quadratic increase in memory reduction with respect to the sequence length $$N$$.  
+In this section, we analyze the experimental results of the FlashAttention.Figure 3 demonstrates the reduction in HBM memory usage compared to the vanilla attention algorithm. Since FlashAttention does not materialize the $$N \times N$$ intermediate matrices, it only requires $$O(N)$$ additional HBM memory for the output and softmax statistics as opposed to $$O(N^2)$$ memory requirement of the vanilla attention algorithm. This results in a quadratic increase in memory reduction with respect to the sequence length $$N$$.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -165,9 +163,8 @@ In this section, we analyze the experimental results of the FlashAttention.Figur
 
 In addition to memory reduction, FlashAttention is also faster compared to the vanilla attention algorithm as depicted in Figure 4. The speedup is particularly significant when optional dropout and masking operations are applied during the attention computation. This behavior is expected, as the optimizations employed in FlashAttention aim to reduce the I/O complexity of the vanilla attention algorithm. Memory-bound operations, such as masking and dropout, are the primary sources of bottlenecks in terms of wall clock time.
 
-## Personal Comment 
+## Personal Comment
 
-"Attention is All You Need" <d-cite key="aiayn"></d-cite> in 2017 marked a pivotal moment, establishing the Transformer architecture and attention mechanism as fundamental building blocks for many groundbreaking research endeavors and widely-used products. What, I find particularly interesting about FlashAttention is how, despite several years of research in one of the most rapidly evolving scientific domains, such an elegant yet "simple" line of optimization could be overlooked for arguably one of the most crucial operations. This is especially surprising given the significant financial incentives and vast resources available to companies that would benefit from an algorithm such as FlashAttention. Of course, hindsight is 20/20. Something appears obvious and simple after it has been discovered, even though it was not initially apparent. 
+"Attention is All You Need" <d-cite key="aiayn"></d-cite> in 2017 marked a pivotal moment, establishing the Transformer architecture and attention mechanism as fundamental building blocks for many groundbreaking research endeavors and widely-used products. What, I find particularly interesting about FlashAttention is how, despite several years of research in one of the most rapidly evolving scientific domains, such an elegant yet "simple" line of optimization could be overlooked for arguably one of the most crucial operations. This is especially surprising given the significant financial incentives and vast resources available to companies that would benefit from an algorithm such as FlashAttention. Of course, hindsight is 20/20. Something appears obvious and simple after it has been discovered, even though it was not initially apparent.
 
 By the way, FlashAttention 2 <d-cite key="flashattention2"></d-cite> and FlashAttention 3 <d-cite key="flashattention3"></d-cite> are available as even more optimized attention kernels, and their adoption has been widespread across the industry. In that regard, I have become a big fan of Tri Dao's research. I understand that academic and industrial research are driven by different motivations, but I believe more academics should pay attention to real-world use cases and their computational constraints.
-
