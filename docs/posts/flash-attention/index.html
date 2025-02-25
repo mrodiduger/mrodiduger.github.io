@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rodi Düger">
+<meta name="dcterms.date" content="2024-08-02">
+
+<title>Flash Attention: A Brief Overview – Rodi Düger</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5a2a5d413977a1dd95c82bc8adf41075.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Rodi Düger</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Flash Attention: A Brief Overview</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">computer_science</div>
+                <div class="quarto-category">machine_learning</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Rodi Düger </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 2, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Transformer architecture <span class="citation" data-cites="aiayn">(<a href="#ref-aiayn" role="doc-biblioref">Vaswani et al. 2017</a>)</span> has been a milestone for many deep learning application areas, particularly in NLP domain as the backbone of most large language models (LLMs). Scaling up these models has been the key factor allowing them to achieve their high levels of performance and capabilities <span class="citation" data-cites="scaling_laws_openai scaling_laws_deepmind">(<a href="#ref-scaling_laws_openai" role="doc-biblioref">Kaplan et al. 2020</a>; <a href="#ref-scaling_laws_deepmind" role="doc-biblioref">Hoffmann et al. 2022</a>)</span>. As the models grow larger, trained on more data with increased computational resources, they are able to learn more comprehensive patterns and representations, leading to improvements in understanding and generating human language as well as solving complex tasks <span class="citation" data-cites="emergent_cap">(<a href="#ref-emergent_cap" role="doc-biblioref">Wei et al. 2022</a>)</span>.</p>
+<p>The core component of the Transformer architecture is the attention mechanism, which allows embeddings to incorporate contextual information. The standard implementation of the attention mechanism is slow due to its quadratic time and memory complexity and hence becomes a computational bottleneck, especially for long sequences. As a consequence, a primary challenge with scaling up these models is efficiency.</p>
+<p>To address this efficiency problem, FlashAttention <span class="citation" data-cites="flashattention">(<a href="#ref-flashattention" role="doc-biblioref">Dao et al. 2022</a>)</span> has been proposed as an exact <em>IO-aware</em> attention algorithm. Rather than focusing on reducing the computation of the attention algorithm, FlashAttention reduces the number of IO operations between the GPU’s relatively slow high-bandwidth memory (HBM) and fast on-chip SRAM and effectively utilizes the asymmetric memory hierarchy in graphics processing units (GPUs).</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-gpu" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gpu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="gpu_hierarchy.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gpu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: GPU memory hierarchy. Relative to SRAM, HBM is slower but has more memory
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wallclock" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wallclock-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="attention_wallclock.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wallclock-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Comparison of wallclock time needed for each operation in PyTorch implementation of vanilla attention and FlashAttention. Figure taken from Tri Dao et al. <span class="citation" data-cites="flashattention">(<a href="#ref-flashattention" role="doc-biblioref">Dao et al. 2022</a>)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="related-work" class="level2">
+<h2 class="anchored" data-anchor-id="related-work">Related Work</h2>
+<p>Many approaches have been proposed to address the quadratic time and memory complexity of Transformers and to scale them to longer sequences. Some of these approaches include low-rank approximation <span class="citation" data-cites="performer performer_sublinear">(<a href="#ref-performer" role="doc-biblioref">Choromanski et al. 2021</a>; <a href="#ref-performer_sublinear" role="doc-biblioref">Likhosherstov et al. 2021</a>)</span>, sparse approximation <span class="citation" data-cites="reformer">(<a href="#ref-reformer" role="doc-biblioref">Kitaev, Kaiser, and Levskaya 2020</a>)</span>, a combination of both <span class="citation" data-cites="longformer">(<a href="#ref-longformer" role="doc-biblioref">Beltagy, Peters, and Cohan 2020</a>)</span>, and compression along the sequence <span class="citation" data-cites="transformerx1">(<a href="#ref-transformerx1" role="doc-biblioref">Dai et al. 2019</a>)</span>. Most of these methods offer a trade-off between efficiency and accuracy. FlashAttention distinguishes itself among these methods as an efficient and exact alternative.</p>
+</section>
+<section id="vanilla-attention" class="level2">
+<h2 class="anchored" data-anchor-id="vanilla-attention">Vanilla Attention</h2>
+<p>In its simplified form without the scaling factor before applying the softmax, the vanilla attention computation can be written as</p>
+<p><span class="math display">\[
+O = \text{softmax}(QK^T)V,
+\]</span></p>
+<p>where $O,Q,K,V ^{N d} $. The vanilla attention algorithm computes the output as following:</p>
+<ul>
+<li><p>Load <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span> by blocks from HBM to SRAM | <span style="color: red">IO operation !</span></p></li>
+<li><p>Compute the intermediate result <span class="math inline">\(S_0 = QK^T\in \mathbb{R}^{N \times N}\)</span></p></li>
+<li><p>Write the intermediate result <span class="math inline">\(S_0\)</span> to HBM | <span style="color: red">IO operation !</span></p></li>
+<li><p>Load *<span class="math inline">\(S_0\)</span> from HBM to SRAM | <span style="color: red">IO operation !</span></p></li>
+<li><p>Apply softmax to <span class="math inline">\(S_0\)</span> along the second dimension, which results in the intermediate result <span class="math inline">\(S_1 = \text{softmax}(S_0) \in \mathbb{R}^{N \times N}\)</span></p></li>
+<li><p>Write <span class="math inline">\(S_1\)</span> to HBM | <span style="color: red">IO operation !</span></p></li>
+<li><p>Load <span class="math inline">\(S_1\)</span> and <span class="math inline">\(V\)</span> by blocks from HBM to SRAM</p></li>
+<li><p>Compute the output <span class="math inline">\(O = S_1V\)</span></p></li>
+<li><p>Write <span class="math inline">\(O\)</span> to HBM | <span style="color: red">IO operation !</span></p></li>
+</ul>
+<p>Even in its most simplified form, attention computation requires data to move between HBM and SRAM several times due to the limited capacity of SRAM, which is e.g.&nbsp;approximately 20 MB in the NVIDIA A100, given it contains 108 streaming multiprocessors each equipped with 192 KB of SRAM <span class="citation" data-cites="nvidiaa100">(<a href="#ref-nvidiaa100" role="doc-biblioref"><em>NVIDIA A100 Tensor Core GPU Architecture</em> 2020</a>)</span>. Additional memory-bound operations, such as masking and dropout, also increase the IO overhead of the computation.</p>
+<p>This demonstrates that the vanilla attention algorithm does not account for the cost of HBM reads and writes, making it <em>IO-unaware</em>. FlashAttention addresses this problem.</p>
+</section>
+<section id="flash-attention" class="level2">
+<h2 class="anchored" data-anchor-id="flash-attention">Flash Attention</h2>
+<p>In contrast to the vanilla attention algorithm, FlashAttention computes exact attention with fewer HBM reads and writes. It achieves this by applying two well-established optimization techniques: tiling and recomputation. The key idea behind FlashAttention is to avoid materializing intermediate matrices and to fuse all CUDA kernels (matrix multiplication, softmax etc.) used in the vanilla attention computation into one as depicted in <a href="#fig-flashattention" class="quarto-xref">Figure&nbsp;3</a>.</p>
+<div id="fig-flashattention" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flashattention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="flashattention.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flashattention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Overview of FlashAttention algorithm. Figure taken from Tri Dao et. al. <span class="citation" data-cites="flashattention">(<a href="#ref-flashattention" role="doc-biblioref">Dao et al. 2022</a>)</span>
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="tiling" class="level1">
+<h1>Tiling</h1>
+<p>A major challenge in tiling the attention computation lies in the non-associative nature of the softmax function. Traditionally, softmax of a vector <span class="math inline">\(x \in \mathbb{R}^d\)</span>, which can be thought as a row of the intermediate result <span class="math inline">\(S_0\)</span>, is computed using an algorithm called “safe softmax” for numerical stability as in <a href="#fig-safe-softmax" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<div id="fig-safe-softmax" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-safe-softmax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="safe_softmax.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-safe-softmax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Pseudocode of safe softmax algorithm.
+</figcaption>
+</figure>
+</div>
+<p>The problem with using safe softmax while computing the attention is that it requires three iterations over the entire input vector <span class="math inline">\(x\)</span>: one iteration to determine the maximum value <span class="math inline">\(m\)</span>, one iteration to calculate the normalizer <span class="math inline">\(l\)</span> and one iteration to calculate the final output <span class="math inline">\(o\)</span>. This, consequently leads to reads/writes from/to HBM since SRAM does not have enough capacity to materialize the entire intermediate matrix. On the other hand, online softmax <span class="citation" data-cites="online_softmax">(<a href="#ref-online_softmax" role="doc-biblioref">Milakov and Gimelshein 2018</a>)</span> depicted in <a href="#fig-online-softmax" class="quarto-xref">Figure&nbsp;5</a>, offers an alternative to safe softmax to calculate the maximum value <span class="math inline">\(m\)</span> and normalizer <span class="math inline">\(l\)</span> in an online manner in a single loop.</p>
+<div id="fig-online-softmax" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-online-softmax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="online_softmax.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-online-softmax-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Pseudocode of online softmax algorithm
+</figcaption>
+</figure>
+</div>
+<p>Although computing the attention matrix <span class="math inline">\(S_1\)</span> with the online softmax still requires two loops and hence a read/write from/to HBM, it is not necessary to materialize the attention matrix <span class="math inline">\(S_1\)</span> to compute the output of the atttention <span class="math inline">\(O = S_1 \cdot V\)</span>. Thus, the output can be computed in blocks directly in a single loop with a low memory footprint that fits into the SRAM. The derivation and details of this single-loop computation are beyond the scope of this review and are left to the reader for further reading <span class="citation" data-cites="from_online_softmax_to_flashattention">(<a href="#ref-from_online_softmax_to_flashattention" role="doc-biblioref">Ye 2023</a>)</span>.</p>
+</section>
+<section id="recomputation" class="level1">
+<h1>Recomputation</h1>
+<p>In the context of performance optimization, recomputation refers to the concept that, in certain scenarios, recomputing data may be faster than storing intermediate results and accessing them from memory. As we discussed in <a href="#tiling">Tiling</a>, FlashAttention avoids materializing the intermediate matrices <span class="math inline">\(S_0\)</span> and <span class="math inline">\(S_1\)</span>. As a consequence, it can also not read the intermediate matrices during the backward pass, as they are never materialized and stored. Instead, FlashAttention stores the softmax normalization statistics <span class="math inline">\(m\)</span> and <span class="math inline">\(\ell\)</span> and recomputes the <span class="math inline">\(S_0\)</span> and <span class="math inline">\(S_1\)</span> to compute the gradients of <span class="math inline">\(O\)</span> with respect to <span class="math inline">\(Q, K\)</span> and <span class="math inline">\(V\)</span>. Although recomputation results in more FLOPs, it improves the wall clock time of the algorithm, as the slow HBM is accessed fewer times.</p>
+<section id="experimental-results" class="level2">
+<h2 class="anchored" data-anchor-id="experimental-results">Experimental Results</h2>
+<p>In this section, we analyze the experimental results of the FlashAttention.@fig-flashattn_memory demonstrates the reduction in HBM memory usage compared to the vanilla attention algorithm. Since FlashAttention does not materialize the <span class="math inline">\(N \times N\)</span> intermediate matrices, it only requires <span class="math inline">\(O(N)\)</span> additional HBM memory for the output and softmax statistics as opposed to <span class="math inline">\(O(N^2)\)</span> memory requirement of the vanilla attention algorithm. This results in a quadratic increase in memory reduction with respect to the sequence length <span class="math inline">\(N\)</span>.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-flashattn-memory" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flashattn-memory-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="flashattn_memory.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flashattn-memory-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Memory reduction of FlashAttention over standard PyTorch attention implementation at different sequence lengths.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wallclock-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wallclock-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="flashattn_speedup.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wallclock-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Wallclock-time speedup of FlashAttention over standard PyTorch attention implementation at different sequence lengths on NVIDIA A100. Figures taken from Tri Dao et al. <span class="citation" data-cites="flashattention">(<a href="#ref-flashattention" role="doc-biblioref">Dao et al. 2022</a>)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>In addition to memory reduction, FlashAttention is also faster compared to the vanilla attention algorithm as depicted in <a href="#fig-wallclock-2" class="quarto-xref">Figure&nbsp;7</a>. The speedup is particularly significant when optional dropout and masking operations are applied during the attention computation. This behavior is expected, as the optimizations employed in FlashAttention aim to reduce the I/O complexity of the vanilla attention algorithm. Memory-bound operations, such as masking and dropout, are the primary sources of bottlenecks in terms of wall clock time.</p>
+</section>
+<section id="personal-comment" class="level2">
+<h2 class="anchored" data-anchor-id="personal-comment">Personal Comment</h2>
+<p>“Attention is All You Need” <span class="citation" data-cites="aiayn">(<a href="#ref-aiayn" role="doc-biblioref">Vaswani et al. 2017</a>)</span> in 2017 marked a pivotal moment, establishing the Transformer architecture and attention mechanism as fundamental building blocks for many groundbreaking research endeavors and widely-used products. What, I find particularly interesting about FlashAttention is how, despite several years of research in one of the most rapidly evolving scientific domains, such an elegant yet “simple” line of optimization could be overlooked for arguably one of the most crucial operations. This is especially surprising given the significant financial incentives and vast resources available to companies that would benefit from an algorithm such as FlashAttention. Of course, hindsight is 20/20.</p>
+<p>By the way, FlashAttention 2 <span class="citation" data-cites="flashattention2">(<a href="#ref-flashattention2" role="doc-biblioref">Dao 2024</a>)</span> and FlashAttention 3 <span class="citation" data-cites="flashattention3">(<a href="#ref-flashattention3" role="doc-biblioref">Shah et al. 2024</a>)</span> are available as even more optimized attention kernels, and their adoption has been widespread across the industry. In that regard, I have become a big fan of Tri Dao’s research. I understand that academic and industrial research are driven by different motivations, but I believe more academics should pay attention to real-world use cases and their computational constraints.</p>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-longformer" class="csl-entry" role="listitem">
+Beltagy, Iz, Matthew E. Peters, and Arman Cohan. 2020. <span>“Longformer: The Long-Document Transformer.”</span> <em>CoRR</em> abs/2004.05150.
+</div>
+<div id="ref-performer" class="csl-entry" role="listitem">
+Choromanski, Krzysztof Marcin, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamás Sarlós, Peter Hawkins, et al. 2021. <span>“Rethinking Attention with Performers.”</span> In <em><span>ICLR</span></em>. OpenReview.net.
+</div>
+<div id="ref-transformerx1" class="csl-entry" role="listitem">
+Dai, Zihang, Zhilin Yang, Yiming Yang, Jaime G. Carbonell, Quoc Viet Le, and Ruslan Salakhutdinov. 2019. <span>“Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context.”</span> In <em><span>ACL</span> <span>(1)</span></em>, 2978–88. Association for Computational Linguistics.
+</div>
+<div id="ref-flashattention2" class="csl-entry" role="listitem">
+Dao, Tri. 2024. <span>“FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning.”</span> In <em><span>ICLR</span></em>. OpenReview.net.
+</div>
+<div id="ref-flashattention" class="csl-entry" role="listitem">
+Dao, Tri, Daniel Y. Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. 2022. <span>“FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness.”</span> In <em>Advances in Neural Information Processing Systems 35: Annual Conference on Neural Information Processing Systems 2022, NeurIPS 2022, New Orleans, LA, USA, November 28 - December 9, 2022</em>.
+</div>
+<div id="ref-scaling_laws_deepmind" class="csl-entry" role="listitem">
+Hoffmann, Jordan, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza Rutherford, Diego de Las Casas, et al. 2022. <span>“Training Compute-Optimal Large Language Models.”</span> <em>CoRR</em> abs/2203.15556.
+</div>
+<div id="ref-scaling_laws_openai" class="csl-entry" role="listitem">
+Kaplan, Jared, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. <span>“Scaling Laws for Neural Language Models.”</span> <em>CoRR</em> abs/2001.08361.
+</div>
+<div id="ref-reformer" class="csl-entry" role="listitem">
+Kitaev, Nikita, Lukasz Kaiser, and Anselm Levskaya. 2020. <span>“Reformer: The Efficient Transformer.”</span> In <em><span>ICLR</span></em>. OpenReview.net.
+</div>
+<div id="ref-performer_sublinear" class="csl-entry" role="listitem">
+Likhosherstov, Valerii, Krzysztof Marcin Choromanski, Jared Quincy Davis, Xingyou Song, and Adrian Weller. 2021. <span>“Sub-Linear Memory: How to Make Performers SLiM.”</span> In <em>NeurIPS</em>, 6707–19.
+</div>
+<div id="ref-online_softmax" class="csl-entry" role="listitem">
+Milakov, Maxim, and Natalia Gimelshein. 2018. <span>“Online Normalizer Calculation for Softmax.”</span> <em>CoRR</em> abs/1805.02867. <a href="http://arxiv.org/abs/1805.02867">http://arxiv.org/abs/1805.02867</a>.
+</div>
+<div id="ref-nvidiaa100" class="csl-entry" role="listitem">
+<em>NVIDIA A100 Tensor Core GPU Architecture</em>. 2020. NVIDIA Corporation. <a href="https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf">https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf</a>.
+</div>
+<div id="ref-flashattention3" class="csl-entry" role="listitem">
+Shah, Jay, Ganesh Bikshandi, Ying Zhang, Vijay Thakkar, Pradeep Ramani, and Tri Dao. 2024. <span>“FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-Precision.”</span> <a href="https://arxiv.org/abs/2407.08608">https://arxiv.org/abs/2407.08608</a>.
+</div>
+<div id="ref-aiayn" class="csl-entry" role="listitem">
+Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. 2017. <span>“Attention Is All You Need.”</span> In <em>Advances in Neural Information Processing Systems 30: Annual Conference on Neural Information Processing Systems 2017, December 4-9, 2017, Long Beach, CA, <span>USA</span></em>, 5998–6008.
+</div>
+<div id="ref-emergent_cap" class="csl-entry" role="listitem">
+Wei, Jason, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph, Sebastian Borgeaud, Dani Yogatama, et al. 2022. <span>“Emergent Abilities of Large Language Models.”</span> <em>Trans. Mach. Learn. Res.</em> 2022.
+</div>
+<div id="ref-from_online_softmax_to_flashattention" class="csl-entry" role="listitem">
+Ye, Zihao. 2023. <span>“From Online Softmax to FlashAttention.”</span> University of Washington. <a href="https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf">https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

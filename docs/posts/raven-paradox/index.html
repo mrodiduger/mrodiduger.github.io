@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rodi Düger">
+<meta name="dcterms.date" content="2024-12-31">
+
+<title>Hempel’s (Raven) Paradox: An Introduction – Rodi Düger</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5a2a5d413977a1dd95c82bc8adf41075.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Rodi Düger</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Hempel’s (Raven) Paradox: An Introduction</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">philosophy</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Rodi Düger </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 31, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p><strong>The Raven Paradox, also known as Hempel’s Paradox, is a paradox introduced by Carl Gustav Hempel <span class="citation" data-cites="Hempel1937 studies_in_logical_confirmation">(<a href="#ref-Hempel1937" role="doc-biblioref">C. G. Hempel 1937</a>; <a href="#ref-studies_in_logical_confirmation" role="doc-biblioref">Carl G. Hempel 1945</a>)</span> that explores the notion of qualitative confirmation—specifically, what constitutes evidence for a particular hypothesis.</strong></p>
+<p>Statements with empirical content require validation through reference to the empirical reality around us. However, it is not possible to conclusively verify certain statements, such as universally quantified ones, by means of deductive logic. The sentence “All ravens are black” is an example of a universally quantified statement. No finite amount of observation could verify this statement, as it asserts validity for an infinite number of instances. Although it is not possible to conclusively verify such general hypotheses through observation and deductive logic, it can intuitively be said that each observation of a “black raven” provides evidence for the hypothesis and <em>confirms</em> it. In this sense, the non-deductive relationship between evidence and hypothesis is crucial for scientific practice, as science largely deals with such general hypotheses. Nevertheless, attempts to formalize an explicit theory of confirmation/disconfirmation encounter problems, including Hempel’s Raven Paradox. To fully grasp why Hempel formulated this paradox, it is important to understand the historical and philosophical context in which it emerged.</p>
+<p>Hempel was a pioneering figure within the Logical Positivism movement, contributing greatly to its refinement and establishment within philosophical circles, and the paradox should be understood within this context. Logical Positivism was a philosophical movement that flourished in the 1920s and 1930s in central Europe, particularly among members of the Vienna Circle. It is characterized by an approach to philosophy, grounded in the belief that meaningful statements are those that can be empirically verified or are tautological (true by definition). This principle, known as the verifiability criterion of meaningfulness, was central to their efforts to distinguish “meaningful” questions—those that can be the subject of philosophical and scientific endeavour—from “meaningless” ones, which lack empirical content or logical form and thus fall outside the realm of legitimate discourse. By this standard, sentences that are neither tautological nor empirically verifiable, such as theological or metaphysical claims, were considered meaningless. Logical Positivists believed that scientific methodology, with its emphasis on empirical testing and observation, was the ideal way to acquire knowledge. They argued that the sole purpose of philosophy should be to clarify the language of science, ensuring that all philosophical discourse is grounded in empirical reality and logical analysis. However, while the verifiability criterion of meaningfulness ruled out statements without empirical content as “meaningless,” it also classified many universally quantified scientific statements, such as physical laws and theories, as “meaningless.”, which ultimately challenged the very foundation of scientific research.</p>
+</section>
+<section id="hempels-theory-of-confirmation" class="level1">
+<h1>Hempel’s Theory of Confirmation</h1>
+<p>Referring to <em>confirmation</em> as <em>qualitative</em> highlights the distinction between qualitative and quantitative confirmation. The notion of qualitative confirmation focuses on the nature of non-deductive relation between evidence and the hypothesis, without attempting to quantify it. While quantitative confirmation involves assigning numerical values to the strength of evidence, qualitative confirmation deals with how an evidence supports or undermines a hypothesis based purely on logical or conceptual connections. In exploring formal theories of confirmation, several approaches have emerged. The hypothetico-deductive (HD) model of confirmation suggests that evidence confirms a hypothesis if the hypothesis successfully predicts the evidence. Meanwhile, Bayesian confirmation theory employs probability to assess the degree to which evidence supports a hypothesis, focusing on how new evidence affects the likelihood of a hypothesis being true and thus follows a more quantitative approach. In this essay, we will focus on Hempel’s theory of confirmation to answer the question “What does it mean, that an evidence <span class="math inline">\(E\)</span> supports a hypothesis <span class="math inline">\(H\)</span> ?”</p>
+<p>Hempel’s theory of confirmation is essentially a reconstruction of the Jean Nicod’s criterion of confirmation <span class="citation" data-cites="Nicod">(<a href="#ref-Nicod" role="doc-biblioref">Nicod and Lalande 1925</a>)</span>. Nicod’s criterion is as follows:</p>
+<blockquote class="blockquote">
+<p>“Consider the formula or the law: <span class="math inline">\(A\)</span> <em>entails</em> <span class="math inline">\(B\)</span>. How can a particular proposition, or more briefly, a fact, affect its probability? If this fact consists of the presence of <span class="math inline">\(B\)</span> in a case of <span class="math inline">\(A\)</span>, it is favourable to the law ‘<span class="math inline">\(A\)</span> entails <span class="math inline">\(B\)</span>’; on the contrary, if it consists of the absence of <span class="math inline">\(B\)</span> in a case of <span class="math inline">\(A\)</span>, it is unfavourable to this law. It is conceivable that we have here the only two direct modes in which a fact can influence the probability of a law[…] Thus, the entire influence of particular truths or facts on the probability of universal propositions or laws would operate by means of these two elementary relations which we shall call <em>confirmation</em> and <em>invalidation</em>.”</p>
+</blockquote>
+<p>In other words, according to Nicod’s criterion, a hypothesis of the form “All <span class="math inline">\(A\)</span>’s are <span class="math inline">\(B\)</span>” is confirmed by an observation of an <span class="math inline">\(A\)</span> that is also a <span class="math inline">\(B\)</span>, and disconfirmed by an observation of an <span class="math inline">\(A\)</span> that is not a <span class="math inline">\(B\)</span>.</p>
+<p>Nevertheless, there are a few shortcomings of Nicod’s criterion of confirmation:</p>
+<ol type="1">
+<li>It is only applicable to hypotheses of universal conditional form, the applicability of the criterion is restricted to certain form of hypotheses. %TODO CITE</li>
+<li>It does not fulfill <em>the</em> equivalence condition. It makes confirmation depend not only on content of the hypothesis but also on its formulation. %TODO CITE</li>
+</ol>
+<p>The second shortcoming requires further explanation, what is <em>the</em> equivalence condition?</p>
+<p>The equivalence condition basically states, that the hypotheses, which are logically equivalent, should be confirmed/disconfirmed by the same set of evidences.</p>
+<p>Consider following two hypotheses:</p>
+<ul>
+<li><span class="math inline">\(S_1\)</span>: All ravens are black<br>
+</li>
+<li><span class="math inline">\(S_2\)</span>: All non-black things are non-ravens</li>
+</ul>
+<p>These two hypotheses are logically equivalent but an observation of a raven, which is black, would confirm the hypothesis <span class="math inline">\(S_1\)</span> but would be neutral with respect to <span class="math inline">\(S_2\)</span>. Similarly an observation of an object, which is not black and not a raven, would confirm the hypothesis <span class="math inline">\(S_2\)</span> but would be neutral with respect to <span class="math inline">\(S_1\)</span>. This suggests that, the Nicod’s criterion of confirmation does not purely depend on the content of the hypothesis but also on its formulation.</p>
+</section>
+<section id="the-raven-paradox-and-resolution-attempts" class="level1">
+<h1>The Raven Paradox and Resolution Attempts</h1>
+<p>The Raven Paradox is a controversial conclusion derived from premises that are <em>seemingly</em> trivial, including <em>the</em> equivalence condition. Consider the following premises:</p>
+<ol type="1">
+<li>Every observation of an A that is B supports a hypothesis of the form <span class="math inline">\((\forall x)(Ax \rightarrow Bx)\)</span>, meaning “All <span class="math inline">\(A\)</span> are <span class="math inline">\(B\)</span>”</li>
+<li>Hypotheses, which are logically equivalent, are confirmed/disconfirmed by the same set of evidences.</li>
+<li><span class="math inline">\((\forall x)(Ax \rightarrow Bx)\)</span> is logically equivalent to <span class="math inline">\((\forall x)(\neg Bx \rightarrow \neg Ax)\)</span></li>
+</ol>
+<p>Now, consider the hypothesis <span class="math inline">\(H\)</span> = “All ravens are black” or <span class="math inline">\((\forall x)(Ax \rightarrow Bx)\)</span>, where <span class="math inline">\(A\)</span> refers to ravens and <span class="math inline">\(B\)</span> to blackness. According to the premise <span class="math inline">\(S_3\)</span>, the hypothesis <span class="math inline">\(H\)</span> is logically equivalent to the hypothesis <span class="math inline">\(H'\)</span> = “All non-blacks are non-raven” or <span class="math inline">\((\forall x)(\neg Bx \rightarrow \neg Ax)\)</span>, meaning “Whatever is not black is not a raven”. By the premise <span class="math inline">\(P_1\)</span>, an observation of a non-black non-raven, for example a white shoe, supports the hypothesis <span class="math inline">\(H'\)</span>. According to the premise <span class="math inline">\(P_2\)</span>, hypotheses <span class="math inline">\(H\)</span> and <span class="math inline">\(H'\)</span> are confirmed by the same set of evidences and as a consequence the observation of a white shoe supports the hypothesis <span class="math inline">\(H\)</span> = “All ravens are black”.</p>
+<p>The issue is that accepting these premises $P_1, <span class="math inline">\(P_2\)</span> and <span class="math inline">\(P_3\)</span> as true logically leads to the conclusion that observing a white shoe supports the hypothesis that all ravens are black. This outcome clashes with our common sense and intuition. After all, why would the observation of a white shoe, seemingly unrelated to ravens, provide any support for a hypothesis, which is seemingly about ravens?</p>
+<p>As with any deductive argument, there are several approaches to challenge the conclusion and, by extension, the paradox:</p>
+<ol type="1">
+<li>Deny one or more of the premises.</li>
+<li>Deny the validity of the deduction.</li>
+<li>Deny that the conclusion is paradoxical.</li>
+</ol>
+<p>First of all, attempting to deny the validity of the deduction would be absurd, as it follows basic principles of sound deductive logic. The argument is structured in a way that, given the premises, the conclusion necessarily follows. Therefore, any challenge must focus on the premises themselves or on the interpretation of the conclusion, rather than on the deductive process used to derive it. Additionally, since premise <span class="math inline">\(P_3\)</span> is a sound principle in classical logic, it is also not reasonable to reject it. This leaves only two options for any attempt to resolve the paradox by focusing on the premises: either reject premise <span class="math inline">\(P_1\)</span>, which reflects Nicod’s criterion, or reject premise <span class="math inline">\(P_2\)</span>, the equivalence condition.</p>
+<section id="hempels-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="hempels-resolution">Hempel’s Resolution</h2>
+<p>Hempel himself, denied that the conclusion is paradoxical. He argued, that “impression of a paradoxical situation is not objectively founded; it is a psychological illusion” <span class="citation" data-cites="studies_in_logical_confirmation">(<a href="#ref-studies_in_logical_confirmation" role="doc-biblioref">Carl G. Hempel 1945</a>)</span>. He argumented, that a general hypothesis such as “All ravens are black” is in fact a constraint on <em>all</em> objects, and not just on ravens. Furthermore, he pointed out that when discussing how evidence <span class="math inline">\(E\)</span> supports a hypothesis <span class="math inline">\(H\)</span>, we implicitly rely on a set of background information <span class="math inline">\(B\)</span>. He suggested that the paradoxical conclusion would disappear if we did not factor in this background knowledge.</p>
+<p>To elaborate on Hempel’s first point, the hypothesis “All ravens are black” can be seen not merely as a statement about ravens but as a universal constraint on all objects. In other words, the hypothesis asserts that if any object is a raven, then it must also be black. This means that the hypothesis implicitly makes a claim about every possible object in the world: any non-black object cannot be a raven. From this perspective, observing a non-black object, such as a white shoe, is relevant to the hypothesis because it confirms that the object in question is not a counterexample to the rule. While it may feel counterintuitive, Hempel’s view is that confirming the absence of non-black ravens is just as valid as confirming the presence of black ones.</p>
+<p>Regarding the second point, Hempel stresses the role of background information in how evidence is interpreted. When we assess how a particular piece of evidence supports a hypothesis, we do so with additional background assumptions that often go unnoticed. For instance, if we already know that most objects around us are not ravens, observing a white shoe feels irrelevant to the hypothesis “All ravens are black.” However, if we imagine a scenario where the distribution of ravens and non-ravens is unknown, the observation of any non-black, non-raven object gains more significance. Hempel argued that the sense of paradox arises because we intuitively operate with background information, like knowing what ravens look like and their rarity, without realizing its influence on our reasoning. When this background information is accounted for, the seemingly paradoxical nature of the conclusion dissolves.</p>
+<p>Hempel’s key insight is that confirmation should be seen as a three-way relationship: “evidence <span class="math inline">\(E\)</span> supports the hypothesis <span class="math inline">\(H\)</span> relative to background information <span class="math inline">\(B\)</span>,” rather than just a two-way link between <span class="math inline">\(E\)</span> and <span class="math inline">\(H\)</span>. However, Hempel’s theory of confirmation does not offer a framework to systematically account for background information <span class="math inline">\(B\)</span> in order to “isolate” the confirmational impact of evidence <span class="math inline">\(E\)</span> on its own. <span class="citation" data-cites="Fitelson2010">(<a href="#ref-Fitelson2010" role="doc-biblioref">Fitelson and Hawthorne 2010</a>)</span> In other words, it does not make a distinction between “<em><span class="math inline">\(E\)</span> confirms <span class="math inline">\(H\)</span> given <span class="math inline">\(B\)</span></em>” and “<em><span class="math inline">\(E \And B\)</span> confirms <span class="math inline">\(H\)</span></em>”. In contrast, Bayesian confirmation theory offers a more structured approach. Using Bayes’ Theorem, it quantifies how much evidence <span class="math inline">\(E\)</span> raises the probability of the hypothesis <span class="math inline">\(H\)</span> in light of background information <span class="math inline">\(B\)</span>. While Bayesian confirmation is fundamentally quantitative, it can easily be interpreted qualitatively. So, a set of alternative approaches for resolving the Raven Paradox can be found by looking at the Bayesian view on confirmation.</p>
+</section>
+<section id="bayesian-approach" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-approach">Bayesian Approach</h2>
+<p>Bayesianism is basically a probabilistic framework, which in simple words describe how to update the belief regarding the likelihood of a hypothesis in light of new evidence. Bayes’ Theorem explicates this as following:</p>
+<p><span class="math display">\[
+P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(P(H|E)\)</span> is the <strong>posterior probability:</strong> the probability of the hypothesis <span class="math inline">\(H\)</span> after observing evidence <span class="math inline">\(E\)</span>.</p></li>
+<li><p>$P(E|H) $ is the <strong>likelihood:</strong> the probability of observing evidence <span class="math inline">\(E\)</span> given that <span class="math inline">\(H\)</span> is true.</p></li>
+<li><p><span class="math inline">\(P(H)\)</span> is the <strong>prior probability:</strong> the initial probability of <span class="math inline">\(H\)</span> before observing any evidence.</p></li>
+<li><p><span class="math inline">\(P(E)\)</span> is the <strong>marginal likelihood:</strong> the overall probability of observing ( E ) under all possible hypotheses. It can also be written as <span class="math inline">\(P(E) = P(D|H) \cdot P(H) + P(D|\neg H) \cdot P(\neg H)\)</span></p></li>
+</ul>
+<p>It is important to point out that the Bayesian formulation does not presuppose that the probabilities correspond to the objective likelihood of events—assuming such a thing as ‘objective probability’ even exists. Instead, these probabilities represent our degrees of belief or confidence in certain outcomes based on the available information. This subjective interpretation of probability is central to Bayesianism, as it allows us to update our beliefs dynamically in response to new evidence. In this regard, Bayesian reasoning is particularly well-suited for addressing Hempel’s Raven Paradox, as it helps us explore whether the so-called paradoxical conclusion is truly paradoxical or simply a psychological illusion rooted in our subjective beliefs. <span class="citation" data-cites="howsonurbach">(<a href="#ref-howsonurbach" role="doc-biblioref">Urbach and Howson 2006</a>)</span></p>
+<p><span class="citation" data-cites="howsonurbach">(<a href="#ref-howsonurbach" role="doc-biblioref">Urbach and Howson 2006</a>)</span>, demonstrates an elegant example of how Bayesian framework can provide a detailed analysis of the paradox.</p>
+<p>Let <span class="math inline">\(H\)</span> denote the hypothesis “All ravens are black”, <span class="math inline">\(P\)</span> a suitable probability function, <span class="math inline">\(\theta\)</span> the probability of a randomly chosen raven being black, <span class="math inline">\(R\)</span> an observation of a black object, <span class="math inline">\(\overline{R}\)</span> an observation of a non-black object, <span class="math inline">\(R\)</span> an observation of a raven, <span class="math inline">\(\overline{R}\)</span> an observation of a non-raven and <span class="math inline">\(\overline{R} \overline{B}\)</span> for example an observation of a black raven.</p>
+<p><span class="math inline">\(P(H|\overline{R} \overline{B})\)</span> represents our belief regarding how likely it is that the <span class="math inline">\(H\)</span> is true, given we observe a non-black non-raven, e.g.&nbsp;a white shoe. According to Bayes’ Theorem</p>
+<span class="math display">\[\begin{aligned}
+    P(H|\overline{R} \overline{B}) &amp; = \frac{P(\overline{R} \overline{B}|H) \cdot P(H)}{P(\overline{R} \overline{B})} \\
+    &amp; = P(H) \cdot \frac{P(\overline{R} \overline{B}|H)}{P(\overline{R} \overline{B})}
+\end{aligned}\]</span>
+<p>The ratio between <span class="math inline">\(P(H|\overline{R} \overline{B})\)</span> and <span class="math inline">\(P(H)\)</span> can be seen as a measure for confirmation. This results in following analysis under some plausible assumptions:</p>
+<span class="math display">\[\begin{aligned}
+    \frac{{}P(H|\overline{R} \overline{B})}{P(H)} &amp; = \frac{P(\overline{R} \overline{B}|H)}{P(\overline{R} \overline{B})} \\
+    &amp; = \frac{P(\overline{B}|H)}{P(\overline{R} \overline{B})} \\
+    &amp; =\frac{P(\overline{B})}{P(\overline{R} \overline{B})} \\
+    &amp; = \frac{P(\overline{B})}{P(\overline{R}|\overline{B}) \cdot P(\overline{B})} \\
+    &amp; = \frac{1}{P(\overline{R}|\overline{B})}
+\end{aligned}\]</span>
+<p>At first glance, some of the derivation steps may seem unclear due to the implicit assumptions involved. Let’s break them down:</p>
+<ol type="1">
+<li><p>Step (3) essentially applies Bayes’ Theorem.</p></li>
+<li><p>Step (4) assumes that the probability of encountering a non-black non-raven (( )) is negligibly close to the probability of encountering any non-black object (()). This assumption seems reasonable, as there are far more non-black objects than ravens in general. While the equality used here is for simplicity and isn’t formally precise, it doesn’t affect the overall point of this analysis.</p></li>
+<li><p>In step (5), it’s assumed that the probability of an object being non-black given that (H) is true is again very close to the prior probability (P()), which is justified by the overwhelming ratio of non-black things to ravens.</p></li>
+</ol>
+<p>Under the assumptions mentioned, we come to the conclusion, that the ratio between <span class="math inline">\(P(H|\overline{R} \overline{B})\)</span> and <span class="math inline">\(P(H)\)</span>, which is considered to be a measure for confirmation, is roughly equal to <span class="math inline">\(\frac{1}{P(\overline{R}|\overline{B})}\)</span>. Another plausible assumption given the world we live in is that there are overwhelmingly more non-ravens than raven so it is safe to assume that <span class="math display">\[
+\frac{1}{P(\overline{R}|\overline{B})} \approx \frac{1}{1 -\epsilon} &gt; 1,
+\]</span> where <span class="math inline">\(\epsilon\)</span> is a very small number. As a consequence, this series of derivations under some plausible assumptions leads us to the result, that the observation of a white shoe does indeed confirms the hypothesis <span class="math inline">\(H\)</span>, that all ravens are black, but the degree of confirmation is almost negligible.</p>
+<p>To understand why, consider the vast number of non-black, non-raven objects in the world. Observing one more of these objects, like a white shoe, barely shifts our confidence in the hypothesis, simply because such observations are so common. In Bayesian terms, while the likelihood ratio slightly favors ( H ), the weight of this evidence is lessened by the large number of similar observations. It’s like adding a single drop of water into an ocean, the water level technically rises, but it isn’t noticeable. This minimal confirmation highlights a crucial aspect of Bayesian reasoning: not all evidence is equally impactful. Although technically supportive, evidence like the white shoe is weak because it doesn’t address the core of the hypothesis. What truly matters is evidence directly tied to ravens themselves—seeing a black raven, for instance, offers much stronger support. In this regard, <span class="citation" data-cites="howsonurbach">(<a href="#ref-howsonurbach" role="doc-biblioref">Urbach and Howson 2006</a>)</span> ‘resolves’ the paradox by showing that it isn’t truly a paradox, while also shedding light on why it might seem like one to us.</p>
+</section>
+<section id="various-attempts" class="level2">
+<h2 class="anchored" data-anchor-id="various-attempts">Various Attempts</h2>
+<p>One approach that complements the Bayesian perspective is Patrick Maher’s use of Carnap’s theory of inductive probability <span class="citation" data-cites="maher">(<a href="#ref-maher" role="doc-biblioref">Maher 1999</a>)</span>. Maher builds on the idea that observing non-ravens can indeed confirm the hypothesis, but in a way that differs from the intuitive, and often misleading, assumption that non-ravens inform us about the color of ravens. Instead, by reducing the total number of potential counterexamples to the hypothesis, Maher shows that such observations still contribute, albeit indirectly, to confirming “All ravens are black.”. A counterexample to the hypothesis would be a raven that is not black. Observing any raven that is black doesn’t falsify the hypothesis and thus supports it, but observing non-ravens, like white shoes or red apples, plays a different role. Even though a white shoe, for example, isn’t a raven and doesn’t tell us directly about raven colors, it still reduces the number of possible objects that could serve as a counterexample to the hypothesis. The more non-raven objects we observe, the more potential items we rule out as being non-black ravens. By systematically observing non-black, non-raven objects, we narrow the space of possible counterexamples that could disprove the claim that all ravens are black.</p>
+<p>Another interesting attempt to resolve the paradox appeared on a single-page article titled “The White Shoe is a Red Herring” <span class="citation" data-cites="doi:10.1093/bjps/17.4.322">(<a href="#ref-doi:10.1093/bjps/17.4.322" role="doc-biblioref">Good 1967</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>Suppose that we know we are in one or other of two worlds, and the hypothesis, H, under consideration is that all the crows in our world are black. We know in advance that in one world there are a hundred black crows, no crows that are not black, and a million other birds; and that in the other world there are a thousand black crows, one white one, and a million other birds. A bird is selected equiprobably at random from all the birds in our world. It turns out to be a black crow. This is strong evidence (a Bayes-Jefrreys-Turing factor 2 of about 10) that we are in the second world, wherein not all crows are black. Thus the observation of a black crow, in the circumstances described, undermines the hypothesis that all the crows in our world are black. Thus the initial premise of the paradox of confirmation is false, and no reference to the contrapositive is required</p>
+</blockquote>
+<p>This thought experiment from <span class="citation" data-cites="doi:10.1093/bjps/17.4.322">(<a href="#ref-doi:10.1093/bjps/17.4.322" role="doc-biblioref">Good 1967</a>)</span> introduces an important point: the validity of Hempel’s first premise, Nicod’s criterion, depends heavily on the background information we consider. By imagining two possible worlds, the example shows that observing a black crow can sometimes weaken the hypothesis, depending on the specific context. This challenges the traditional understanding of Hempel’s paradox, suggesting that confirmation may be more context-dependent than originally thought.</p>
+<p>Another example of such a configuration of background information is found in <span class="citation" data-cites="Rosenkrantz1977">(<a href="#ref-Rosenkrantz1977" role="doc-biblioref">Rosenkrantz 1977</a>)</span>. Consider the following scenario: Three men, <span class="math inline">\(M_1\)</span>, <span class="math inline">\(M_2\)</span>, and <span class="math inline">\(M_3\)</span>, are wearing three different hats, <span class="math inline">\(\textit{Hat}_1\)</span>, <span class="math inline">\(\textit{Hat}_2\)</span>, and <span class="math inline">\(\textit{Hat}_3\)</span>. They enter a bar, leave their jackets and hats at the coat check, have some drinks, and become drunk. When it’s time to leave, they each pick a hat at random. Let <span class="math inline">\(H_\textit{hat}\)</span> denote the hypothesis that each man picks a hat that does not belong to him. According to Nicod’s criterion, if we learn that <span class="math inline">\(M_1\)</span> picked <span class="math inline">\(\textit{Hat}_2\)</span>, this evidence supports the hypothesis <span class="math inline">\(H_\textit{hat}\)</span> since <span class="math inline">\(M_1\)</span> has chosen a hat that isn’t his. If we also learn that <span class="math inline">\(M_2\)</span> picked <span class="math inline">\(\textit{Hat}_1\)</span>, Nicod’s criterion would again suggest this supports the hypothesis, as <span class="math inline">\(M_2\)</span> has also picked a hat that does not belong to him. However, if <span class="math inline">\(M_1\)</span> and <span class="math inline">\(M_2\)</span> had picked each other’s hats, we would implicitly know that <span class="math inline">\(M_3\)</span> picked his own hat, meaning the hypothesis is actually false. In this case, the evidence of <span class="math inline">\(M_2\)</span> picking <span class="math inline">\(\textit{Hat}_1\)</span> would actually falsify the hypothesis rather than support it, contrary to what Nicod’s criterion would suggest.</p>
+<p>However, Hempel responds in his article “The White Shoe: No Herring” <span class="citation" data-cites="whiteshoenoherring">(<a href="#ref-whiteshoenoherring" role="doc-biblioref">Carl G. Hempel 1967</a>)</span>, by arguing that the paradox should be analysed without reference to background information. He insists that the consideration of additional factors compromises the logical clarity of the paradox. In his view, any observation of an A that is B must universally confirm the hypothesis, regardless of what we know about the world. Hempel’s response calls for a stricter interpretation of confirmation, where the process is kept pure and uninfluenced by external considerations. This debate over whether to include or exclude background information raises a broader question: can we really evaluate any hypothesis in isolation from its context? By questioning the universal applicability of Nicod’s criterion, arguments such as “The White Shoe is a Red Herring” highlight potential limitations in the original formulation.</p>
+<p>Another alternative thought-provoking approach to address the paradox is Quine’s argument of natural kinds <span class="citation" data-cites="Quine1970-KINWQ">(<a href="#ref-Quine1970-KINWQ" role="doc-biblioref">Quine 1970</a>)</span>. The Raven Paradox, as outlined by Hempel, relies on the assumption that objects can be neatly classified into categories like “raven” and “black” in such a way that a white shoe could logically confirm the hypothesis “All ravens are black”. However, Quine argues that not all groupings of objects are equally valid when it comes to inductive reasoning. Instead, he claims that categories that reflect the real, inherent structure of the world are essential to making sense of inductive generalizations, which he calls “natural kinds”. Quine’s notion of natural kinds provides a way to dismiss the paradox as a problem that arises from a misunderstanding of how we should group objects for the purposes of confirmation. In the case of the Raven Paradox, Quine would argue that the category of “non-black non-ravens” (e.g., white shoes) is not a natural kind, and thus observations of such objects cannot genuinely confirm or disconfirm a hypothesis about ravens. The paradox arises, in Quine’s view, because it mistakenly treats irrelevant categories as if they were meaningful for inductive reasoning.</p>
+<p>This perspective is closely related to Goodman’s <em>grue</em>-emerald argument <span class="citation" data-cites="Goodman1983-GOOFFA">(<a href="#ref-Goodman1983-GOOFFA" role="doc-biblioref">Goodman 1983</a>)</span>, which also questions the validity of certain categories in inductive logic. Goodman’s <em>grue</em> hypothesis highlights the problem of arbitrary classifications. By defining “<em>grue</em>” as something that is green before time <span class="math inline">\(T\)</span> and blue after, we find that the same observations can support two contradictory hypotheses: “All emeralds are green” and “All emeralds are grue”. Both Goodman and Quine converge on the idea that not all predicates are equally valid when it comes to inductive generalizations. Goodman claims that certain predicates, such as ‘grue’, are artificially constructed and lack the intuitive appeal of others, such as ‘green’. Quine extends this notion by arguing that only natural kinds - those that reflect real divisions in nature - should be used to formulate hypotheses and confirm them by observation. According to Quine, the Raven Paradox, like Goodman’s grue problem, exposes how our reliance on artificial categories can distort inductive reasoning. In the Raven Paradox, the category of “non-black non-ravens” is treated as relevant for confirming a hypothesis about ravens, but Quine would argue that this category is too arbitrary to support any meaningful inference. The same issue appears in Goodman’s grue hypothesis: the classification of emeralds as “grue” is not based on a natural kind but on an arbitrary, division.</p>
+</section>
+</section>
+<section id="verdict" class="level1">
+<h1>Verdict</h1>
+<p>To summarize, Hempel’s raven paradox has established itself as <em>the</em> paradox of confirmation, sparking a long line of philosophical discussions as various perspectives have emerged on how to approach and resolve it. I tend to view the paradox more as a common medium for discussing the non-deductive relationship between evidence and hypothesis rather than as a paradox in the traditional sense. Among all the attempts at resolution, I find myself most aligned with the approach provided by the Bayesian framework, which denies the paradoxical nature of the conclusion. It is, of course, not feasible to delve deeply into the extensive discussions surrounding Bayesian confirmation theory and the interplay between the Bayesian view of confirmation and the paradox. However, I firmly believe that the premises underlying the paradox and the deductions leading to the so-called paradoxical conclusion are sound and “bullet-proof,” with the configuration of background information serving as the actual “red herring” in this context. In that regard, I am inclined to explain why our intuition senses “something wrong” with the so-called paradoxical conclusion. In my opinion, the Bayesian framework offers the most “intuitive” way to address why our intuition fails. Although I tend to deny the paradoxical nature of the conclusion, I still find it challenging to defend the idea that a white shoe and a black raven provide the same kind of evidence for the hypothesis. It is clear to me that there must be a distinction between a white shoe and a black raven regarding the degree of confirmation they offer for the hypothesis, and that is precisely what the Bayesian approach aims to demonstrate.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Fitelson2010" class="csl-entry" role="listitem">
+Fitelson, Branden, and James Hawthorne. 2010. <span>“How Bayesian Confirmation Theory Handles the Paradox of the Ravens.”</span> In <em>The Place of Probability in Science: In Honor of Ellery Eells (1953-2006)</em>, edited by Ellery Eells and J. H. Fetzer, 247–75. Dordrecht: Springer Netherlands. <a href="https://doi.org/10.1007/978-90-481-3615-5_11">https://doi.org/10.1007/978-90-481-3615-5_11</a>.
+</div>
+<div id="ref-doi:10.1093/bjps/17.4.322" class="csl-entry" role="listitem">
+Good, I. J. 1967. <span>“The White Shoe Is a Red Herring.”</span> <em>The British Journal for the Philosophy of Science</em> 17 (4): 322–22. <a href="https://doi.org/10.1093/bjps/17.4.322">https://doi.org/10.1093/bjps/17.4.322</a>.
+</div>
+<div id="ref-Goodman1983-GOOFFA" class="csl-entry" role="listitem">
+Goodman, Nelson. 1983. <span>“The New Riddle of Induction.”</span> In <em>Fact, Fiction, and Forecast</em>. Cambridge: Harvard University Press.
+</div>
+<div id="ref-Hempel1937" class="csl-entry" role="listitem">
+Hempel, C. G. 1937. <span>“Le Problème de La Vérité.”</span> <em>Theoria</em> 3 (2-3): 206–44.
+</div>
+<div id="ref-studies_in_logical_confirmation" class="csl-entry" role="listitem">
+Hempel, Carl G. 1945. <span>“Studies in the Logic of Confirmation (i.).”</span> <em>Mind</em> 54 (213): 1–26. <a href="http://www.jstor.org/stable/2250886">http://www.jstor.org/stable/2250886</a>.
+</div>
+<div id="ref-whiteshoenoherring" class="csl-entry" role="listitem">
+———. 1967. <span>“THE WHITE SHOE: NO RED HERRING.”</span> <em>The British Journal for the Philosophy of Science</em> 18 (3): 239–40. <a href="https://doi.org/10.1093/bjps/18.3.239">https://doi.org/10.1093/bjps/18.3.239</a>.
+</div>
+<div id="ref-maher" class="csl-entry" role="listitem">
+Maher, Patrick. 1999. <span>“Inductive Logic and the Ravens Paradox.”</span> <em>Philosophy of Science</em> 66 (1): 50–70. <a href="http://www.jstor.org/stable/188737">http://www.jstor.org/stable/188737</a>.
+</div>
+<div id="ref-Nicod" class="csl-entry" role="listitem">
+Nicod, Jean, and A. Lalande. 1925. <span>“Le Problème Logique de l’induction.”</span> <em>Mind</em> 34 (136): 483–91.
+</div>
+<div id="ref-Quine1970-KINWQ" class="csl-entry" role="listitem">
+Quine, W. V. O. 1970. <span>“Natural Kinds.”</span> In <em>Essays in Honor of Carl g. Hempel</em>, edited by Carl G. Hempel, Donald Davidson, and Nicholas Rescher, 5. D. Reidel.
+</div>
+<div id="ref-Rosenkrantz1977" class="csl-entry" role="listitem">
+Rosenkrantz, Roger D. 1977. <span>“The Paradoxes of Confirmation.”</span> In <em>Inference, Method and Decision: Towards a Bayesian Philosophy of Science</em>, 33–41. Dordrecht: Springer Netherlands. <a href="https://doi.org/10.1007/978-94-010-1237-9_2">https://doi.org/10.1007/978-94-010-1237-9_2</a>.
+</div>
+<div id="ref-howsonurbach" class="csl-entry" role="listitem">
+Urbach, Peter, and Colin Howson. 2006. <span>“Scientific Reasoning: The Bayesian Approach.”</span> In, edited by Peter Urbach, 3rd ed., 99–103. Chicago: Open Court.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
