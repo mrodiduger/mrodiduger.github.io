@@ -26,8 +26,9 @@ In other words, according to Nicod’s criterion, a hypothesis of the form “Al
 
 Nevertheless, there are a few shortcomings of Nicod's criterion of confirmation:
 
-1. It is only applicable to hypotheses of universal conditional form, the applicability of the criterion is restricted to certain form of hypotheses. %TODO CITE
-2. It does not fulfill *the* equivalence condition. It makes confirmation depend not only on content of the hypothesis but also on its formulation. %TODO CITE
+1. It is only applicable to hypotheses of universal conditional form, the applicability of the criterion is restricted to certain form of hypotheses.
+
+2. It does not fulfill *the* equivalence condition. It makes confirmation depend not only on content of the hypothesis but also on its formulation.
 
 The second shortcoming requires further explanation, what is *the* equivalence condition?
 
