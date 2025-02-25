@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rodi Düger">
+<meta name="dcterms.date" content="2023-08-28">
+
+<title>Understanding RSA: Number Theory,Primes, Fermat, Euler and such – Rodi Düger</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-5a2a5d413977a1dd95c82bc8adf41075.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Rodi Düger</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Understanding RSA: Number Theory,Primes, Fermat, Euler and such</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">computer_science</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Rodi Düger </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 28, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>While searching the internet for a somehow in-depth article on the mathematics underpinning RSA encryption, I found myself somewhat dissatisfied with the available resources. This ignited a longstanding aspiration within me to start writing, so here is my debut piece !</p>
+<hr>
+<section id="what-is-rsa" class="level1">
+<h1>What is RSA ?</h1>
+<p>RSA, or Rivest-Shamir-Adleman, is a public-key encryption system. It was introduced way back in 1977, making it quite old, but surprisingly, it’s still widely used today (although it should not be used anymore<a href="https://blog.trailofbits.com/2019/07/08/fuck-rsa/">¹</a>) . Now, you might be thinking, “Why write a blog post about an ‘ancient’ encryption method?” Well, that’s a fair question. The thing is, RSA isn’t just a relic – it’s got an educational treasure trove. It’s a great example of how the difficulty of prime factorization can be turned into a one-way function.</p>
+<p>First, we’ll take a brief look at how RSA generates keys, encrypts, and decrypts data. Then, we’ll explore the math behind it, which will help us grasp why RSA was designed the way it is.</p>
+<hr>
+</section>
+<section id="key-generation" class="level1">
+<h1>Key Generation</h1>
+<p>RSA key generation involves several steps to generate a public and a private key:</p>
+<ul>
+<li><strong>Select two large prime numbers:</strong> First, we pick two prime numbers <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, which should be large enough to ensure the security. Note that <span class="math inline">\(p \neq q\)</span></li>
+<li><strong>Calculate the modulo:</strong> The modulo is denoted as <span class="math inline">\(n\)</span> and it defines the modulo algebraic structure that we operate on</li>
+</ul>
+<p><span class="math display">\[
+n = p \cdot q
+\]</span></p>
+<ul>
+<li><strong>Evaluate Euler’s Phi (totient) function at <span class="math inline">\(n\)</span>:</strong> This is an important step but we will discuss the equation below later as we move forward.</li>
+</ul>
+<p><span class="math display">\[
+\phi (n) =  (p-1) \cdot (q-1)
+\]</span></p>
+<ul>
+<li><strong>Choose a public exponent:</strong> Choose a public exponent <span class="math inline">\(e\)</span>, which should satisfy the following condition (<span class="math inline">\(gcd(x,y)\)</span> stands for greatest common divisor of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> ):</li>
+</ul>
+<p><span class="math display">\[
+1&lt;e&lt;\phi(n) \; \land \; gcd(e, \phi(n)) = 1
+\]</span></p>
+<ul>
+<li><strong>Calculate the secret exponent:</strong> Calculate the secret exponent d, such that</li>
+</ul>
+<p><span class="math display">\[
+e \cdot d \equiv 1 \; mod \; \phi(n)
+\]</span></p>
+<p>Public key <span class="math inline">\(pk\)</span> is <span class="math inline">\((n,e)\)</span> and secret key <span class="math inline">\(sk\)</span> is <span class="math inline">\((n,d)\)</span>.</p>
+<hr>
+</section>
+<section id="encryption-and-decryption" class="level1">
+<h1>Encryption and Decryption</h1>
+<p>Once the public and private keys are generated, encryption and decryption is pretty simple:</p>
+<p><span class="math display">\[
+Enc(pk, m) := c =  m^e \; mod \; n
+\]</span></p>
+<p><span class="math display">\[
+Dec(sk, c) = c^d \; mod \; n
+\]</span></p>
+<hr>
+<p>You might be thinking, “How does this even work? What’s the trick?” Well, the magic happens behind the scenes with a bunch of number theory, and we’re all set to dive right into it!</p>
+<p>Let’s introduce you to the mathematics that will help us grasp why RSA functions as it does.</p>
+<hr>
+</section>
+<section id="eulers-totient-phi-function" class="level1">
+<h1>Euler’s Totient (Phi) Function</h1>
+<p>In number theory, Euler’s totient function counts the positive integers up to a given integer <span class="math inline">\(n\)</span> that are relatively prime to <span class="math inline">\(n\)</span>. It is written using the Greek letter phi as $ $, and may also be called Euler’s phi function. In other words, it is the number of integers <span class="math inline">\(k\)</span> in the range <span class="math inline">\(1 \leq k \leq n\)</span> for which the greatest common divisor <span class="math inline">\(gcd(n, k)\)</span> is equal to <span class="math inline">\(1\)</span>.</p>
+<p>To illustrate, consider this example:</p>
+<p><span class="math display">\[ \displaylines{\textrm{Let } n=6 \\ gcd(0,6) = 6 \;\; ,\;\; gcd(1,6)=1 \;\; ,\;\; gcd(2,6) = 2 \\ gcd (3,6) = 3 \;\; ,\;\; gcd(4,6) = 2 \;\; ,\;\; gcd(5,6) = 1} \]</span></p>
+<p>Here, we see that there are only 2 integers, which are relatively prime to 6:</p>
+<p><span class="math display">\[
+\implies \phi(n) = \phi(6) = 2
+\]</span></p>
+<p>But as you can infer from the example, this isn’t the most efficient way to calculate Euler’s totient function for a given number <span class="math inline">\(n\)</span>. There’s actually a simpler approach to compute this function for any integer, thanks to the fact that Euler’s totient function is a multiplicative function, which means:</p>
+<p><span class="math display">\[
+\displaylines{\textrm{Let } n= p \cdot q \textrm{  and }p \textrm{ and } q \textrm{ are coprime} \\  \phi(n)=\phi(p \cdot q) = \phi(p) \cdot \phi(q)}
+\]</span></p>
+<p>Multiplicative property of Euler’s totient function is actually not a trivial property. We can prove this property using Chinese Remainder Theorem (CRT).</p>
+<section id="chinese-remainder-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="chinese-remainder-theorem">Chinese Remainder Theorem</h2>
+<p>The Chinese Remainder Theorem (CRT) is a fundamental theorem in number theory that deals with solving systems of simultaneous modular congruences. It provides a way to find a unique solution to a set of congruences when the moduli involved are pairwise coprime (i.e., they have no common factors other than 1). The theorem is named after its historical association with ancient Chinese mathematics.</p>
+<p><strong>Theorem:</strong></p>
+<p>Let <span class="math inline">\(n_1, n_2, ..., n_k\)</span> be pairwise coprime positive integers and let <span class="math inline">\(a_1,a_2,...,a_k\)</span> be any set of integers. Then the system of modular congruences</p>
+<p><span class="math display">\[
+\displaylines{x \equiv a_1 \;(mod \;n_1)\\x \equiv a_2 \;(mod \; n_2)\\.\\.\\x \equiv \; a_k \; (mod \; n_k) }
+\]</span></p>
+<p>has a <strong>unique</strong> solution in <span class="math inline">\(mod \; N\)</span>, whereas <span class="math inline">\(N:= n_1 \cdot n_2 \cdot...\cdot n_k\)</span></p>
+<p>Essentially, what the thorem states is that, the map</p>
+<p><span class="math display">\[
+x \; mod \; N \mapsto (x \; mod \; n_1,x \; mod \; n_2,...,x \; mod \; n_k )
+\]</span></p>
+<p>defines an isomorphism between <span class="math inline">\(\mathbb{Z}/N\mathbb{Z}\)</span> and <span class="math inline">\(\mathbb{Z}/n_1\mathbb{Z}\times\mathbb{Z}/n_2\mathbb{Z}\times...\times\mathbb{Z}/n_k\mathbb{Z}\)</span></p>
+<p>I’m not going to delve into a formal proof explaining why Euler’s totient function acts as a multiplicative function under certain assumptions. However, what’s essential to recognize here is that the isomorphism between these two rings leads to the pivotal observation of Euler’s totient function possessing a multiplicative property.</p>
+<p>There’s another observation we can make about Euler’s totient function, and it will come in handy as we proceed:</p>
+<hr>
+<p>Let <span class="math inline">\(p\)</span> be a prime and <span class="math inline">\(k \geq1\)</span>. Then the following equation holds:</p>
+<p><span class="math display">\[
+\phi(p^k) = p^k - p^{k-1}
+\]</span></p>
+<p><strong>Proof:</strong> Since <span class="math inline">\(p\)</span> is a prime number, the only possible values of <span class="math inline">\(gcd(p^k, m)\)</span> are <span class="math inline">\(1, p, p^2, ..., p^k\)</span>, and the only way to have <span class="math inline">\(gcd(p^k, m) &gt; 1\)</span> is if <span class="math inline">\(m\)</span> is a multiple of <span class="math inline">\(p\)</span>, that is, <span class="math inline">\(m \in {p, 2p, 3p, ..., p^{k − 1} \cdot p = p^k}\)</span>, and there are <span class="math inline">\(p^{k − 1}\)</span> such multiples not greater than <span class="math inline">\(p^k\)</span>. Therefore, the other <span class="math inline">\(p^k − p^{k − 1}\)</span> numbers are all relatively prime to <span class="math inline">\(p^k\)</span><a href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">²</a>.</p>
+<p><strong>Example:</strong> Let’s compute <span class="math inline">\(\phi(3^2)\)</span>:</p>
+<p><span class="math display">\[
+\displaylines{gcd(0,9) = 9 \;\; ,\;\; gcd(1,9)=1  \;\; ,\;\;  gcd(2,9) = 1 \\ gcd (3,9) = 3  \;\; ,\;\;  gcd(4,9) = 1 \;\; ,\;\; gcd(5,9) = 1 \\gcd(6,9) = 3 \;\; ,\;\; gcd(7,9)=1  \;\; ,\;\;  gcd(8,9) = 1\\ \implies \phi(3^2) = 6 = 3^2 - 3^1}
+\]</span></p>
+<hr>
+<p>Now let’s take a look at the simpler approach to compute this function for any integer:</p>
+<hr>
+<p>Let <span class="math inline">\(m\)</span> has the following prime factorization:</p>
+<p><span class="math display">\[
+m = p_1^{e_1} \cdot p_2^{e_2}\cdot...\cdot p_n^{e_n}
+\]</span></p>
+<p>whereas <span class="math inline">\(e_i \in \mathbb{N}\)</span>. With a little assistance from our previous observation, we can assert the following:</p>
+<p><span class="math display">\[
+\phi(m) = \prod_{i=1}^n\phi(p_i^{e^i}) = \prod_{i=1}^n(p_i^{e_i} - p_i^{e_i -1})
+\]</span></p>
+<hr>
+<p>Now it should be more clear how we computed <span class="math inline">\(\phi(n)\)</span> as <span class="math inline">\(\phi(n) = \phi(p) \cdot \phi(q)\)</span> in the key generation section.</p>
+<p>Prime factorization of <span class="math inline">\(n\)</span> is <span class="math inline">\(n = p^1 \cdot q^1\)</span>, then:</p>
+<p><span class="math display">\[
+\phi(n) = \phi(p^1 \cdot q^1) = \phi(p^1) \cdot \phi(q^1) = (p^1-p^0)\cdot(q^1-q^0) = (p-1)\cdot(q-1)
+\]</span></p>
+<p>This insight should shed light on why we generate prime numbers to generate keys in the first place. It’s crucial to emphasize that this computation becomes feasible only when we possess the prime factorization of a given integer <span class="math inline">\(n\)</span>. Yet, for a large <span class="math inline">\(n\)</span>, it might prove impractical to factorize it into its prime components within a reasonable timeframe. Exactly for this reason, we emphasize that <strong>“RSA uses the complexity of prime factorization to guarantee its security,”</strong> as this very characteristic forms the heart of the RSA cryptosystem.</p>
+<p>If we’re aware of the prime factors of a specific number <span class="math inline">\(n\)</span>, we can efficiently calculate the Euler’s totient function <span class="math inline">\(\phi(n)\)</span>, allowing for efficient decryption. However, when we lack knowledge of the prime factors of <span class="math inline">\(n\)</span> efficiently computing <span class="math inline">\(\phi(n)\)</span> becomes a daunting task. We could resort to a brute-force approach, yet this becomes unfeasible when dealing with significantly large values of <span class="math inline">\(n\)</span>, because of the immense time it would demand.</p>
+<hr>
+<p>Now that we’ve understood some key features of Euler’s totient function that are vital for key generation, let’s address the question: <strong>“Why do we even use Euler’s totient function?”</strong></p>
+<p>Let’s explore the answer.</p>
+</section>
+</section>
+<section id="eulers-theorem" class="level1">
+<h1>Euler’s Theorem</h1>
+<p>Euler’s Theorem is integral to the security and functioning of RSA encryption. The use of modular exponentiation in both encryption and decryption operations leverages Euler’s Theorem. Here’s how:</p>
+<hr>
+<p><strong>Euler’s Theorem:</strong></p>
+<p>Let <span class="math inline">\(a\)</span> and <span class="math inline">\(m\)</span> be positive coprime integers (<span class="math inline">\(gcd(a,m)=1\)</span>), then:</p>
+<p><span class="math display">\[
+a^{\phi(m)} \equiv 1 \; (mod \; m)
+\]</span></p>
+<p><strong>Example:</strong></p>
+<p>Let <span class="math inline">\(m =10\)</span> and <span class="math inline">\(a=3\)</span>.</p>
+<p>Since <span class="math inline">\(gcd(10,3) = 1\)</span>, <span class="math inline">\(a^{\phi(m)}\)</span> should be equivalent to <span class="math inline">\(1 \; (mod \; m)\)</span>. Let’s check:</p>
+<p><span class="math display">\[
+\phi(m) = \phi(10) = \phi(5 \cdot 2) = (5-1) \cdot (2-1) = 4
+\]</span></p>
+<p><span class="math display">\[
+a^{\phi(m)} = 3^4 =81 \equiv 1 \; (mod \; 10)
+\]</span></p>
+<hr>
+<p>Unfortunately, I’m not a mathematician. :/ So, I don’t want to explain a proof, which I’m not really familiar with. Let’s just accept Euler’s theorem as a given truth, which, in fact, it is :D</p>
+<p>Let’s now look at a special case of Euler’s Theorem, which is Fermat’s Little Theorem !</p>
+<hr>
+<p><strong>Fermat’s Little Theorem:</strong></p>
+<p>Let <span class="math inline">\(a\)</span> be a positive integer, <span class="math inline">\(p\)</span> be a prime and <span class="math inline">\(gcd(a,p) = 1\)</span>. Then:</p>
+<p><span class="math display">\[
+a^p \equiv a \; (mod \; p)
+\]</span></p>
+<p><span class="math display">\[
+\iff
+\]</span></p>
+<p><span class="math display">\[
+a \cdot (a^{p-1} -1) \equiv 0 \; (mod \; p)
+\]</span></p>
+<p><span class="math display">\[
+\iff
+\]</span></p>
+<p><span class="math display">\[
+a^{p-1} \equiv 1 \; (mod \; p)
+\]</span></p>
+<p><strong>Proof</strong>: Fermat’s Little Theorem is basically a special case of Euler’s theorem, if the modulo is a prime number.</p>
+<p>Let <span class="math inline">\(a\)</span> be a positive integer, <span class="math inline">\(p\)</span> be a prime and <span class="math inline">\(gcd(a,p) = 1\)</span>.</p>
+<p>Since <span class="math inline">\(gcd(a,p)=1\)</span>, using Euler’s Theorem:</p>
+<p><span class="math display">\[
+a^{\phi(p)} \equiv 1 \; (mod \; p)
+\]</span></p>
+<p>We know that <span class="math inline">\(\phi(p) = p-1\)</span>, if <span class="math inline">\(p\)</span> is a prime.</p>
+<p><span class="math display">\[
+\implies a^{p-1} \equiv 1 \; (mod \; p)
+\]</span></p>
+<hr>
+</section>
+<section id="correctness-of-rsa" class="level1">
+<h1>Correctness of RSA</h1>
+<p>Now, armed with all the necessary tools, we can demonstrate that the <span class="math inline">\(Enc(pk,m)\)</span> and <span class="math inline">\(Dec(sk,c)\)</span> operations within the RSA cryptosystem act as perfect inverses of one another.</p>
+<hr>
+<p><strong>Lemma(Correctness):</strong> A public key algorithm <span class="math inline">\((Gen,Enc,Dec)\)</span> is correct if</p>
+<p><span class="math display">\[
+\forall m,pk,sk: (pk,sk) \leftarrow Gen(1^k) \implies Dec(sk, Enc(pk,m)) = m
+\]</span></p>
+<hr>
+<p><strong>Let’s prove the correctness of RSA together, step by step !</strong></p>
+<p>Let <span class="math inline">\(pk=(n,e)\)</span> and <span class="math inline">\(sk=(n,d)\)</span> be a pair of public and secret key generated by RSA key generation algorithm.</p>
+<p>Since <span class="math inline">\(Dec(sk, Enc(pk,m)) = (m^e)^d \; mod \; n\)</span>, what we want to show is, that</p>
+<p><span class="math display">\[
+(m^e)^d \equiv m \; (mod \; n)
+\]</span></p>
+<p>First thing to note here is, that it is enough to check that</p>
+<p><span class="math display">\[
+(m^e)^d \equiv m \; (mod \; p)
+\]</span></p>
+<p><span class="math display">\[
+(m^e)^d \equiv m \; (mod \; q)
+\]</span></p>
+<p>Because by the Chinese Remainder Theorem, the map</p>
+<p><span class="math display">\[
+m \; mod \; n \mapsto (m \; mod \; p,m \; mod \; q)
+\]</span></p>
+<p>defines a ring isomorphism between <span class="math inline">\(\mathbb{Z}/n\mathbb{Z}\)</span> and <span class="math inline">\(\mathbb{Z}/p\mathbb{Z}\times\mathbb{Z}/q\mathbb{Z}\)</span>.</p>
+<p>Since <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> are arbitrarily chosen two prime numbers, they don’t have variable specific constraints and hence it is enough to prove that</p>
+<p><span class="math display">\[
+(m^e)^d \equiv m \; (mod \; p)
+\]</span></p>
+<p>Then proof of <span class="math inline">\((m^e)^d \equiv m \; (mod \; q)\)</span> would be analogue.</p>
+<p><span class="math display">\[
+(m^e)^d \equiv m^{e \cdot d} \; (mod \; p) \tag{1}
+\]</span></p>
+<p><span class="math display">\[
+m^{e \cdot d} \equiv m^{(1 \; mod \; \phi(n))} \; (mod \; p) \tag{2}
+\]</span></p>
+<p><span class="math display">\[
+m^{(1 \; mod \; \phi(n))} \equiv m^{(k \cdot \phi(n) + 1)} \; (mod \; p), \; k \in \mathbb{N}_0 \tag{3}
+\]</span></p>
+<p><span class="math display">\[
+m^{(k \cdot \phi(n) + 1)} \equiv m^{k \cdot \phi(n)} \cdot m \; (mod \; p) \tag{4}
+\]</span></p>
+<p><span class="math display">\[
+m^{k \cdot \phi(n)} \cdot m \equiv m^{k \cdot (p-1) \cdot (q-1)} \cdot m \; (mod \; p) \tag{5}
+\]</span></p>
+<p><span class="math display">\[
+m^{k \cdot (p-1) \cdot (q-1)} \cdot m \equiv (m^{p-1})^{k \cdot (q-1)} \cdot m \; (mod \; p) \tag{6}
+\]</span></p>
+<p><span class="math display">\[
+(m^{p-1})^{k \cdot (q-1)} \cdot m \equiv 1^{k \cdot (q-1)} \cdot m \; (mod \; p)\tag{7}
+\]</span></p>
+<p><span class="math display">\[
+1^{k \cdot (q-1)} \cdot m \equiv m \; (mod \; p) \tag{8}
+\]</span></p>
+<ul>
+<li><p>Step <span class="math inline">\((2)\)</span> holds true because in our key generation, we intentionally selected <span class="math inline">\(d\)</span> to serve as the inverse of <span class="math inline">\(e\)</span> in modulo <span class="math inline">\(\phi(n)\)</span>.</p></li>
+<li><p>Step <span class="math inline">\((5)\)</span> holds true because of properties of Euler’s totient function mentioned above. If you can’t understand why this step holds true, check the section about Euler’s totient function and do not forget that <span class="math inline">\(n = p \cdot q\)</span> and <span class="math inline">\(p,q\)</span> are prime numbers with <span class="math inline">\(p \neq q\)</span></p></li>
+<li><p>Step <span class="math inline">\((7)\)</span> holds true because of Fermat’s Little Theorem</p></li>
+</ul>
+<hr>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

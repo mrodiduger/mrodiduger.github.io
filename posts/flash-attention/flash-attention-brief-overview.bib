@@ -1,0 +1,269 @@
+@inproceedings{aiayn,
+  author= {Ashish Vaswani and
+                  Noam Shazeer and
+                  Niki Parmar and
+                  Jakob Uszkoreit and
+                  Llion Jones and
+                  Aidan N. Gomez and
+                  Lukasz Kaiser and
+                  Illia Polosukhin},
+  title= {Attention is All you Need},
+  booktitle= {Advances in Neural Information Processing Systems 30: Annual Conference
+                  on Neural Information Processing Systems 2017, December 4-9, 2017,
+                  Long Beach, CA, {USA}},
+  pages= {5998--6008},
+  year= {2017},
+}
+
+@unpublished{from_online_softmax_to_flashattention,
+  author = {Zihao Ye},
+  title = {From Online Softmax to FlashAttention},
+  institution = {University of Washington},
+  year = {2023},
+  url={https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf}
+}
+
+@inproceedings{flashattention2,
+  author       = {Tri Dao},
+  title        = {FlashAttention-2: Faster Attention with Better Parallelism and Work
+                  Partitioning},
+  booktitle    = {{ICLR}},
+  publisher    = {OpenReview.net},
+  year         = {2024}
+}
+
+@misc{flashattention3,
+      title={FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision}, 
+      author={Jay Shah and Ganesh Bikshandi and Ying Zhang and Vijay Thakkar and Pradeep Ramani and Tri Dao},
+      year={2024},
+      eprint={2407.08608},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2407.08608}, 
+}
+
+
+@article{scaling_laws_openai,
+  author       = {Jared Kaplan and
+                  Sam McCandlish and
+                  Tom Henighan and
+                  Tom B. Brown and
+                  Benjamin Chess and
+                  Rewon Child and
+                  Scott Gray and
+                  Alec Radford and
+                  Jeffrey Wu and
+                  Dario Amodei},
+  title        = {Scaling Laws for Neural Language Models},
+  journal      = {CoRR},
+  volume       = {abs/2001.08361},
+  year         = {2020},
+
+}
+
+@article{scaling_laws_deepmind,
+  author       = {Jordan Hoffmann and
+                  Sebastian Borgeaud and
+                  Arthur Mensch and
+                  Elena Buchatskaya and
+                  Trevor Cai and
+                  Eliza Rutherford and
+                  Diego de Las Casas and
+                  Lisa Anne Hendricks and
+                  Johannes Welbl and
+                  Aidan Clark and
+                  Tom Hennigan and
+                  Eric Noland and
+                  Katie Millican and
+                  George van den Driessche and
+                  Bogdan Damoc and
+                  Aurelia Guy and
+                  Simon Osindero and
+                  Karen Simonyan and
+                  Erich Elsen and
+                  Jack W. Rae and
+                  Oriol Vinyals and
+                  Laurent Sifre},
+  title        = {Training Compute-Optimal Large Language Models},
+  journal      = {CoRR},
+  volume       = {abs/2203.15556},
+  year         = {2022},
+}
+
+@article{emergent_cap,
+  author       = {Jason Wei and
+                  Yi Tay and
+                  Rishi Bommasani and
+                  Colin Raffel and
+                  Barret Zoph and
+                  Sebastian Borgeaud and
+                  Dani Yogatama and
+                  Maarten Bosma and
+                  Denny Zhou and
+                  Donald Metzler and
+                  Ed H. Chi and
+                  Tatsunori Hashimoto and
+                  Oriol Vinyals and
+                  Percy Liang and
+                  Jeff Dean and
+                  William Fedus},
+  title        = {Emergent Abilities of Large Language Models},
+  journal      = {Trans. Mach. Learn. Res.},
+  volume       = {2022},
+  year         = {2022},
+}
+
+@inproceedings{flashattention,
+  author       = {Tri Dao and
+                  Daniel Y. Fu and
+                  Stefano Ermon and
+                  Atri Rudra and
+                  Christopher R{\'{e}}},
+  title        = {FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness},
+  booktitle    = {Advances in Neural Information Processing Systems 35: Annual Conference
+                  on Neural Information Processing Systems 2022, NeurIPS 2022, New Orleans,
+                  LA, USA, November 28 - December 9, 2022},
+  year         = {2022},
+  timestamp    = {Mon, 08 Jan 2024 16:31:29 +0100},
+}
+
+@inproceedings{data_movement,
+  author       = {Andrei Ivanov and
+                  Nikoli Dryden and
+                  Tal Ben{-}Nun and
+                  Shigang Li and
+                  Torsten Hoefler},
+  editor       = {Alex Smola and
+                  Alex Dimakis and
+                  Ion Stoica},
+  title        = {Data Movement Is All You Need: {A} Case Study on Optimizing Transformers},
+  booktitle    = {Proceedings of Machine Learning and Systems 2021, MLSys 2021, virtual,
+                  April 5-9, 2021},
+  publisher    = {mlsys.org},
+  year         = {2021},
+}
+
+@manual{nvidiaa100,
+    organization  = {NVIDIA Corporation},
+    title         = {NVIDIA A100 Tensor Core GPU Architecture},
+    number        = {TLE 4473 GV55-2},
+    year          = {2020},
+    url           = {https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf},
+}
+
+@article{online_softmax,
+  author       = {Maxim Milakov and
+                  Natalia Gimelshein},
+  title        = {Online normalizer calculation for softmax},
+  journal      = {CoRR},
+  volume       = {abs/1805.02867},
+  year         = {2018},
+  url          = {http://arxiv.org/abs/1805.02867},
+  eprinttype    = {arXiv},
+  eprint       = {1805.02867},
+}
+@inbook{Memory-hierarchy,
+    author ={John Hennessy and David Patterson} ,
+    title = {Computer Architecture: A Quantitative
+    Approach},
+    chapter ={Memory hierarchy design},
+    pages={390-525},
+    year = {2003},
+}
+
+@inproceedings{data_locality,
+  author       = {Michael E. Wolf and
+                  Monica S. Lam},
+  title        = {A Data Locality Optimizing Algorithm},
+  booktitle    = {{PLDI}},
+  pages        = {30--44},
+  publisher    = {{ACM}},
+  year         = {1991}
+}
+
+@article{io_complexity,
+  author       = {Alok Aggarwal and
+                  Jeffrey Scott Vitter},
+  title        = {The Input/Output Complexity of Sorting and Related Problems},
+  journal      = {Commun. {ACM}},
+  volume       = {31},
+  number       = {9},
+  pages        = {1116--1127},
+  year         = {1988}
+}
+
+@inproceedings{reformer,
+  author       = {Nikita Kitaev and
+                  Lukasz Kaiser and
+                  Anselm Levskaya},
+  title        = {Reformer: The Efficient Transformer},
+  booktitle    = {{ICLR}},
+  publisher    = {OpenReview.net},
+  year         = {2020}
+}
+
+@inproceedings{performer_sublinear,
+  author       = {Valerii Likhosherstov and
+                  Krzysztof Marcin Choromanski and
+                  Jared Quincy Davis and
+                  Xingyou Song and
+                  Adrian Weller},
+  title        = {Sub-Linear Memory: How to Make Performers SLiM},
+  booktitle    = {NeurIPS},
+  pages        = {6707--6719},
+  year         = {2021}
+}
+
+@inproceedings{performer,
+  author       = {Krzysztof Marcin Choromanski and
+                  Valerii Likhosherstov and
+                  David Dohan and
+                  Xingyou Song and
+                  Andreea Gane and
+                  Tam{\'{a}}s Sarl{\'{o}}s and
+                  Peter Hawkins and
+                  Jared Quincy Davis and
+                  Afroz Mohiuddin and
+                  Lukasz Kaiser and
+                  David Benjamin Belanger and
+                  Lucy J. Colwell and
+                  Adrian Weller},
+  title        = {Rethinking Attention with Performers},
+  booktitle    = {{ICLR}},
+  publisher    = {OpenReview.net},
+  year         = {2021}
+}
+
+@inproceedings{smyrf,
+  author       = {Giannis Daras and
+                  Nikita Kitaev and
+                  Augustus Odena and
+                  Alexandros G. Dimakis},
+  title        = {{SMYRF} - Efficient Attention using Asymmetric Clustering},
+  booktitle    = {NeurIPS},
+  year         = {2020}
+}
+
+@article{longformer,
+  author       = {Iz Beltagy and
+                  Matthew E. Peters and
+                  Arman Cohan},
+  title        = {Longformer: The Long-Document Transformer},
+  journal      = {CoRR},
+  volume       = {abs/2004.05150},
+  year         = {2020}
+}
+
+@inproceedings{transformerx1,
+  author       = {Zihang Dai and
+                  Zhilin Yang and
+                  Yiming Yang and
+                  Jaime G. Carbonell and
+                  Quoc Viet Le and
+                  Ruslan Salakhutdinov},
+  title        = {Transformer-XL: Attentive Language Models beyond a Fixed-Length Context},
+  booktitle    = {{ACL} {(1)}},
+  pages        = {2978--2988},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2019}
+}
