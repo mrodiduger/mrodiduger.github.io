@@ -1,0 +1,28 @@
+---
+title: "Blog"
+body-classes: blog
+page-layout: full
+listing:
+  id: blog
+  contents:
+    - "posts/blog/*/index.qmd"
+    - posts/blog/entries.yml
+  sort: "date desc"
+  field-required: [title, date]
+  template: templates/blog-listing.ejs.md
+  sort-ui: false
+  filter-ui: false
+---
+
+:::: {.writing-page .blog-page}
+
+<header class="page-intro">
+  <p class="eyebrow">BLOG</p>
+  <h1>Things I wanted to write down.</h1>
+  <p>Small observations, passing thoughts, and ideas that don’t need to become an essay.</p>
+</header>
+
+::: {#blog}
+:::
+
+::::

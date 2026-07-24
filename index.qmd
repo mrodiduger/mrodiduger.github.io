@@ -1,10 +1,10 @@
 ---
-title: "Rodi — software engineer"
+title: "Rodi"
 body-classes: home
 page-layout: full
 listing:
   id: recent-writing
-  contents: posts
+  contents: "posts/*/index.qmd"
   sort: "date desc"
   max-items: 1
   template: templates/home-post-listing.ejs.md
@@ -68,9 +68,24 @@ listing:
   <script type="module" src="/assets/js/sph-fluid.mjs"></script>
 
   <section class="hero" aria-labelledby="intro-title">
-    <p class="eyebrow">SOFTWARE ENGINEER · PERSONAL SITE</p>
     <div class="hero-grid">
-      <h1 id="intro-title">I’m Rodi. I build calm, useful software.</h1>
+      <div class="hero-copy">
+        <h1 id="intro-title">I’m Rodi.</h1>
+        <div class="hero-bio">
+          <p>I’m a computer science master’s student at KIT and a software engineer at IBM.</p>
+          <p>
+            My interests lie at the intersection of machine learning, software systems and
+            simulations. I enjoy working on technically demanding problems, from
+            reliable system design to learning-based models for control and physical processes.
+          </p>
+          <p>
+            Outside of work and university, I sing, make music, and explore photography as a form
+            of visual expression, as a way of noticing details, atmosphere, and moments that might
+            otherwise pass unnoticed. I’m drawn to both the technical and the creative, and I
+            enjoy understanding how things work while finding my own way to interpret them.
+          </p>
+        </div>
+      </div>
       <div class="hero-note">
         <p>
           A personal corner for projects, technical notes, and the occasional attempt to make an
@@ -90,7 +105,7 @@ listing:
   <section class="closing" aria-label="Contact">
     <p class="eyebrow">SAY HELLO</p>
     <p>
-      Have an interesting problem, a good book recommendation, or a useful disagreement?
+      Have an interesting problem, an offer, a good book recommendation or a useful disagreement?
       <a href="mailto:rodi.duger@gmail.com">Write to me.</a>
     </p>
   </section>

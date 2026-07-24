@@ -67,6 +67,7 @@ button {
 
 body.home #title-block-header,
 body.writing #title-block-header,
+body.blog #title-block-header,
 body.photography #title-block-header {
   display: none;
 }
@@ -164,7 +165,7 @@ body.photography #title-block-header {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(230px, 0.62fr);
   gap: clamp(36px, 8vw, 132px);
-  align-items: end;
+  align-items: start;
   margin-top: 34px;
 }
 
@@ -188,6 +189,21 @@ p {
 .hero h1 {
   max-width: 760px;
   font-size: clamp(42px, 6.7vw, 92px);
+}
+
+.hero-bio {
+  max-width: 660px;
+  margin-top: clamp(32px, 4vw, 52px);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.hero-bio p {
+  margin-bottom: 1.5em;
+}
+
+.hero-bio p:last-child {
+  margin-bottom: 0;
 }
 
 .hero-note {
@@ -582,6 +598,14 @@ p {
 
 .writing-page .post-list {
   margin-bottom: clamp(112px, 15vw, 166px);
+}
+
+.blog-empty {
+  margin: 0;
+  padding: 28px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 /* Article title generated from QMD front matter */

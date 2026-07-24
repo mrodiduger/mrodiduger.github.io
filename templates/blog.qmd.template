@@ -1,0 +1,10 @@
+---
+title: "A short title"
+date: YYYY-MM-DD
+---
+
+::: {.article-content}
+
+Write the note here.
+
+:::

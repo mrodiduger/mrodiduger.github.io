@@ -1,10 +1,10 @@
 ---
-title: "Writing — Rodi"
+title: "Writing"
 body-classes: writing
 page-layout: full
 listing:
   id: all-writing
-  contents: posts
+  contents: "posts/*/index.qmd"
   sort: "date desc"
   template: templates/post-listing.ejs.md
   sort-ui: false
@@ -15,11 +15,8 @@ listing:
 
 <header class="page-intro">
   <p class="eyebrow">WRITING</p>
-  <h1>Notes on building, learning, and making things legible.</h1>
-  <p>
-    This is intentionally a small collection. New posts go in only when there is something worth
-    returning to.
-  </p>
+  <h1>I write to understand things better.</h1>
+  <p>Longer, structured notes on topics, ideas, and questions.</p>
 </header>
 
 ::: {#all-writing}

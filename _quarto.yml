@@ -4,11 +4,12 @@ project:
   render:
     - index.qmd
     - writing.qmd
+    - blog.qmd
     - photography.qmd
     - posts/**/index.qmd
 
 website:
-  title: "Rodi — software engineer"
+  title: "Rodi"
   site-url: "https://mrodiduger.github.io"
   search: false
 

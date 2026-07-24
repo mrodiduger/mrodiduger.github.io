@@ -1,80 +1,55 @@
-# Rodi’s website
+# Notes for future me
 
-A Quarto-powered personal site, designed as a small static website and published on GitHub Pages.
+This is the Quarto corner where I keep my website, technical notes, photos,
+and the occasional informal thought. It is meant to stay quiet, fast, and simple. If an idea starts
+making the site feel busy, it is probably worth leaving out.
 
-## Run the site locally
+## The usual loop
 
-Install [Quarto](https://quarto.org/docs/get-started/) and Python 3. Confirm both are available:
-
-```sh
-quarto check
-python3 --version
-```
-
-For writing and styling, start Quarto's live preview from the repository root:
+When I want to write or adjust the site, start the live preview from the repository root:
 
 ```sh
 quarto preview
 ```
 
-Quarto prints the local address in the terminal and refreshes the browser when source files change.
-Stop it with `Ctrl+C`.
+Quarto will print the local address and refresh the browser as files change. `Ctrl+C` stops it.
 
-To test the same static output that will be published, render first and then serve `_site/` with
-Python:
+Before publishing, render the site once from scratch:
 
 ```sh
 quarto render
+```
+
+The result lands in `_site/`. That folder is generated, ignored by Git, and never something to edit
+by hand.
+
+If I want to inspect the rendered version exactly as it will be published:
+
+```sh
 python3 -m http.server 8000 --directory _site
 ```
 
-Open <http://localhost:8000/>. The Python server does not rebuild after edits, so run
-`quarto render` again whenever the source changes, then refresh the browser. Stop the server with
-`Ctrl+C`.
+Then open <http://localhost:8000/>. This server does not rebuild anything, so render again after
+making changes.
 
-The generated site is written to `_site/`. It is ignored by Git and should not be edited directly.
+## When I want to write
 
-## The everyday writing workflow
+There are two kinds of writing here.
 
-1. Create a folder at `posts/<slug>/`.
+### A technical note
+
+1. Make a folder at `posts/<slug>/`.
 2. Copy `templates/post.qmd.template` to `posts/<slug>/index.qmd`.
-3. Add any images, bibliography files, or small JavaScript modules beside the post.
-4. Preview while you write:
+3. Keep images, bibliography files, and any small scripts beside the post.
 
-   ```sh
-   quarto preview
-   ```
+The home and writing pages will find the note automatically. No need to add it to a listing by hand.
 
-5. Push your finished note to `main`:
-
-   ```sh
-   git add .
-   git commit -m "Write <post title>"
-   git push
-   ```
-
-The GitHub Action renders and publishes the site automatically. You never need to hand-write a
-blog card or an HTML page: `writing.qmd` discovers posts and builds the index from their front
-matter.
-
-## One-time publishing setup
-
-After pushing this repository to GitHub:
-
-1. Open **Settings → Actions → General** and set **Workflow permissions** to **Read and write**.
-2. Push to `main` once; this creates the `gh-pages` branch.
-3. Open **Settings → Pages** and choose **Deploy from a branch** → `gh-pages` → `/(root)`.
-
-After that, every push to `main` publishes the rendered site.
-
-## Post metadata
-
-Every post starts with YAML front matter:
+The front matter looks like this:
 
 ```yaml
 ---
 title: "A clear, specific title"
-description: "One sentence explaining why this note is worth a reader’s time."
+description: "One sentence explaining why this note is worth reading."
 author: "Rodi Düger"
 date: 2026-07-10
 categories: [software]
@@ -82,24 +57,41 @@ categories: [software]
 ---
 ```
 
-The title, description, date, and calculated reading time are used automatically on the writing
-page. Existing posts already follow this pattern.
+### An informal entry
 
-## Math, citations, and visualizations
+1. Make a folder at `posts/blog/<slug>/`.
+2. Copy `templates/blog.qmd.template` to `posts/blog/<slug>/index.qmd`.
+3. Set the title and date, then start writing.
 
-- Write LaTeX directly: `$f(x) = x^2$` or a `$$ ... $$` display block.
-- Add a BibTeX file beside a post and set `bibliography: references.bib`; cite with `[@key]`.
-- Use normal Markdown for images and Quarto’s figure syntax for captions and cross-references.
-- For diagrams, Quarto supports Mermaid and Graphviz directly.
+These entries appear automatically on `/blog.html` and only need:
 
-## Useful commands
+```yaml
+---
+title: "A short title"
+date: 2026-07-24
+---
+```
+
+## A few things I tend to forget
+
+- Dates stay in ISO `YYYY-MM-DD` format. Quarto handles the display formatting.
+- LaTeX works directly: `$f(x) = x^2$` inline or `$$ ... $$` for a display block.
+- For citations, keep the BibTeX file beside the post, add `bibliography: references.bib`, and cite
+  with `[@key]`.
+- Normal Markdown handles images. Quarto's figure syntax adds captions and cross-references.
+- Mermaid and Graphviz are available when a diagram genuinely helps.
+- Source files are the real site. `_site/` and Quarto's working files are disposable output.
+
+## When it is ready to go
+
+Check the changes, commit the files I actually meant to change, and push to `main`.
+The GitHub Action takes it from there and publishes the rendered site.
+
+## Commands worth keeping close
 
 ```sh
-quarto check    # verify the local Quarto installation
-quarto preview  # rebuild and refresh while writing
+quarto check    # make sure the local Quarto installation is healthy
+quarto preview  # rebuild and refresh while I work
 quarto render   # build the production site into _site/
 python3 -m http.server 8000 --directory _site  # serve the rendered site
 ```
-
-`_site/` and Quarto’s local working files are intentionally ignored by Git. The source files,
-images, and bibliography files are what you commit.
