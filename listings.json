@@ -1,0 +1,20 @@
+[
+  {
+    "listing": "/writing.html",
+    "items": [
+      "/posts/raven-paradox/index.html",
+      "/posts/understanding-rsa/index.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/raven-paradox/index.html",
+      "/posts/understanding-rsa/index.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": []
+  }
+]
