@@ -1,0 +1,272 @@
+---
+pagetitle: "Photography — Rodi"
+body-classes: photography
+page-layout: full
+---
+
+```{=html}
+<main class="photography-page">
+  <header class="photography-intro">
+    <p class="eyebrow">PHOTOGRAPHY</p>
+    <h1>People and things I stopped for</h1>
+  </header>
+
+  <section class="photo-sequence" aria-label="Selected photographs">
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/20240816_195450660 (5).jpg"
+        alt="Apartment facade with orange awnings, deep window shadows, and blue sky."
+        width="1534" height="2048" loading="lazy" decoding="async">
+      <figcaption>01</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/20250125_125123569.jpg"
+        alt="Spectator in a team jacket faces a packed stadium, flags, and green pitch."
+        width="2048" height="1536" loading="lazy" decoding="async">
+      <figcaption>02</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/20250506_114503814 (2).jpg"
+        alt="Hand resting on the rear corner of a silver car above its taillight."
+        width="1534" height="2048" loading="lazy" decoding="async">
+      <figcaption>03</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/20250713_140944524.jpg"
+        alt="Sunlit breakfast plate with bread, eggs, tomatoes, and coffee on a checkered table."
+        width="1534" height="2048" loading="lazy" decoding="async">
+      <figcaption>04</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/20251224_173442980 (1).jpg"
+        alt="Two small birds appear as dark silhouettes in a pale blue sky."
+        width="1534" height="2048" loading="lazy" decoding="async">
+      <figcaption>05</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/P9830084 (3).jpg"
+        alt="Person carrying stacked bread-filled crates through a narrow sunlit stone alley."
+        width="1538" height="2048" loading="lazy" decoding="async">
+      <figcaption>06</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/P9840147.jpg"
+        alt="Woman in black leans from a wooden window framed by cascading flower boxes."
+        width="2047" height="2048" loading="lazy" decoding="async">
+      <figcaption>07</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/P9840761_01.jpg"
+        alt="Dense winter crowd holding flags beneath a sunlit clock tower."
+        width="2048" height="1540" loading="lazy" decoding="async">
+      <figcaption>08</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/P9850461 (1).jpg"
+        alt="Cropped seated passenger overlooks harbor boats from beside a blue-lined trash bin."
+        width="2048" height="1538" loading="lazy" decoding="async">
+      <figcaption>09</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/P9850486 (4).jpg"
+        alt="Black-and-white view of a woman leaning on rails beside windows overlooking water."
+        width="2048" height="1538" loading="lazy" decoding="async">
+      <figcaption>10</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/P9860620_01.jpg"
+        alt="Black-and-white upward view of a sunlit square tower against a dark sky."
+        width="2048" height="1525" loading="lazy" decoding="async">
+      <figcaption>11</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/P9860625_02.jpg"
+        alt="Black-and-white silhouette of a helmeted rider beneath a wall-mounted lamp and signs."
+        width="2048" height="1540" loading="lazy" decoding="async">
+      <figcaption>12</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/P9860842 (1).jpg"
+        alt="Black-and-white view of a man midair above water, with ferries behind him."
+        width="2048" height="1538" loading="lazy" decoding="async">
+      <figcaption>13</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/P9860848.jpg"
+        alt="Black-and-white person pours a bucket of fish into a tub beside filled market trays."
+        width="2048" height="1537" loading="lazy" decoding="async">
+      <figcaption>14</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/P9860885.jpg"
+        alt="Black-and-white waterfront scene with two scooters, three people, and one person airborne."
+        width="2048" height="1538" loading="lazy" decoding="async">
+      <figcaption>15</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/P9860887.jpg"
+        alt="Black-and-white view of two people sitting on a seawall facing a distant ferry."
+        width="2048" height="1538" loading="lazy" decoding="async">
+      <figcaption>16</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/R0000356_02.jpg"
+        alt="Person photographs a distant hot-air balloon above green fields in evening light."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>17</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/R0001740 (1).jpg"
+        alt="Pink balloon tethered to a sunlit yellow wall beside a deep diagonal shadow."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>18</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/R0002545 (1).jpg"
+        alt="Gothic church tower above a cobbled street busy with pedestrians, cyclists, and parked bicycles."
+        width="1365" height="2048" loading="lazy" decoding="async">
+      <figcaption>19</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/R0003266 (6).jpg"
+        alt="Woman reaches toward a gull beside fallen scooters and a man seated on a planter."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>20</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/R0003288 (1).jpg"
+        alt="Workshop shelves and bins packed with cut bamboo tubes beside a slatted window."
+        width="1365" height="2048" loading="lazy" decoding="async">
+      <figcaption>21</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/R0003318 (1).jpg"
+        alt="Aproned man sits playing a long bamboo flute among tools and bundled pipes."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>22</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/R0003318 (2).jpg"
+        alt="Sunlight crosses a seated man testing a bamboo flute amid wall-mounted instruments."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>23</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/R0003515 (1).jpg"
+        alt="Motion-blurred dancers in red and white costumes cross an indoor wooden floor."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>24</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/R0003528 (1).jpg"
+        alt="Motion-blurred dancers form a wide circle between stage musicians and seated spectators."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>25</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/R0003536 (1).jpg"
+        alt="Dancers sweep around an open floor as musicians play and spectators watch."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>26</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/R0003537 (1).jpg"
+        alt="Blurred dancers cluster in a circle while one crosses the open floor."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>27</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/R0003624 (1).jpg"
+        alt="Empty tiled station concourse with green riveted columns and geometric ceiling lights."
+        width="2048" height="1366" loading="lazy" decoding="async">
+      <figcaption>28</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/R0003650 (1).jpg"
+        alt="Black-and-white street with one pedestrian, arched facades, elevated railway, and curved lamps."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>29</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/R0003738 (2).jpg"
+        alt="Sunlit street band performs with saxophone, brass, bass guitar, accordion, and drum."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>30</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/R0003763 (3).jpg"
+        alt="Close view of a saxophonist performing with two other street musicians behind her."
+        width="1365" height="2048" loading="lazy" decoding="async">
+      <figcaption>31</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/R0004034 (1).jpg"
+        alt="Black-and-white ornate minaret rises above mosque roofs as birds cross a black sky."
+        width="1638" height="2048" loading="lazy" decoding="async">
+      <figcaption>32</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide">
+      <img src="/assets/photo/R0004034 (2).jpg"
+        alt="Black-and-white close crop of an ornate minaret with birds against a solid black sky."
+        width="1365" height="2048" loading="lazy" decoding="async">
+      <figcaption>33</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium photo-entry--right">
+      <img src="/assets/photo/R0004176 (1).jpg"
+        alt="Black-and-white flock of gulls fills the sky above dark buildings and trees."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>34</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--medium">
+      <img src="/assets/photo/R0004214 (1).jpg"
+        alt="Black-and-white gulls perch on a car roof while others fly above a bridge."
+        width="2048" height="1366" loading="lazy" decoding="async">
+      <figcaption>35</figcaption>
+    </figure>
+
+    <figure class="photo-entry photo-entry--wide photo-entry--right">
+      <img src="/assets/photo/R0004216 (2).jpg"
+        alt="Black-and-white gulls crowd a car roof and circle beside a ferry-tour sign."
+        width="2048" height="1365" loading="lazy" decoding="async">
+      <figcaption>36</figcaption>
+    </figure>
+  </section>
+</main>
+```
+
+```{=html}
+<script type="module" src="/assets/js/photography.js"></script>
+```

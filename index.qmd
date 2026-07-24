@@ -1,0 +1,98 @@
+---
+title: "Rodi — software engineer"
+body-classes: home
+page-layout: full
+listing:
+  id: recent-writing
+  contents: posts
+  sort: "date desc"
+  max-items: 1
+  template: templates/home-post-listing.ejs.md
+  sort-ui: false
+  filter-ui: false
+---
+
+```{=html}
+<div class="home-page">
+  <div class="sph-fluid-block" data-sph-fluid>
+    <div class="sph-fluid-shell">
+      <canvas
+        id="sph-fluid-canvas"
+        aria-label="Interactive particle fluid simulation. Move a pointer over it to gently push the fluid."
+      ></canvas>
+      <button
+        class="sph-fluid-restart"
+        type="button"
+        aria-label="Restart fluid simulation"
+        disabled
+      >restart</button>
+      <p class="sph-fluid-fallback" hidden>
+        Your browser doesn’t speak WebGPU yet. Otherwise, something funny would be sloshing here.
+      </p>
+    </div>
+    <div class="sph-fluid-controls"
+      role="group"
+      aria-label="Fluid simulation parameters"
+    >
+      <label class="sph-fluid-control" for="sph-particles">
+        <span>particles</span>
+        <output id="sph-particles-output" for="sph-particles">600</output>
+        <input id="sph-particles" type="range" min="200" max="2400" step="8" value="600" disabled>
+      </label>
+      <label class="sph-fluid-control" for="sph-pressure">
+        <span>pressure</span>
+        <output id="sph-pressure-output" for="sph-pressure">0.55</output>
+        <input id="sph-pressure" type="range" min="0.1" max="1.2" step="0.05" value="0.55" disabled>
+      </label>
+      <label class="sph-fluid-control" for="sph-pointer-force">
+        <span>pointer force</span>
+        <output id="sph-pointer-force-output" for="sph-pointer-force">5.0</output>
+        <input id="sph-pointer-force" type="range" min="0" max="20" step="0.5" value="5" disabled>
+      </label>
+      <fieldset class="sph-fluid-mode">
+        <legend>render</legend>
+        <div class="sph-fluid-mode-options">
+          <label>
+            <input type="radio" name="sph-render-mode" value="balls" checked disabled>
+            <span>balls</span>
+          </label>
+          <span aria-hidden="true">/</span>
+          <label>
+            <input type="radio" name="sph-render-mode" value="fluid" disabled>
+            <span>fluid</span>
+          </label>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <script type="module" src="/assets/js/sph-fluid.mjs"></script>
+
+  <section class="hero" aria-labelledby="intro-title">
+    <p class="eyebrow">SOFTWARE ENGINEER · PERSONAL SITE</p>
+    <div class="hero-grid">
+      <h1 id="intro-title">I’m Rodi. I build calm, useful software.</h1>
+      <div class="hero-note">
+        <p>
+          A personal corner for projects, technical notes, and the occasional attempt to make an
+          idea easier to see.
+        </p>
+        <a class="text-link" href="/writing.html">Read the notes <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+```
+
+::: {#recent-writing}
+:::
+
+```{=html}
+  <section class="closing" aria-label="Contact">
+    <p class="eyebrow">SAY HELLO</p>
+    <p>
+      Have an interesting problem, a good book recommendation, or a useful disagreement?
+      <a href="mailto:rodi.duger@gmail.com">Write to me.</a>
+    </p>
+  </section>
+</div>
+```

@@ -1,0 +1,10 @@
+/_site/
+/.quarto/
+/.sass-cache/
+/.jekyll-cache/
+
+**/*.quarto_ipynb
+
+# Local agent planning and review artifacts
+/.superpowers/
+/docs/superpowers/

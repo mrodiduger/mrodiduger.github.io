@@ -1,0 +1,28 @@
+---
+title: "Writing — Rodi"
+body-classes: writing
+page-layout: full
+listing:
+  id: all-writing
+  contents: posts
+  sort: "date desc"
+  template: templates/post-listing.ejs.md
+  sort-ui: false
+  filter-ui: false
+---
+
+:::: {.writing-page}
+
+<header class="page-intro">
+  <p class="eyebrow">WRITING</p>
+  <h1>Notes on building, learning, and making things legible.</h1>
+  <p>
+    This is intentionally a small collection. New posts go in only when there is something worth
+    returning to.
+  </p>
+</header>
+
+::: {#all-writing}
+:::
+
+::::

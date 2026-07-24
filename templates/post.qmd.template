@@ -1,0 +1,39 @@
+---
+title: "A clear, specific title"
+description: "One sentence explaining why this note is worth a reader’s time."
+author: "Rodi Düger"
+date: YYYY-MM-DD
+categories: [software]
+# bibliography: references.bib
+---
+
+::: {.article-content}
+
+Start with a concrete observation, problem, or question. Inline mathematics works directly:
+$f(x) = x^2$.
+
+## A useful subheading
+
+Use display math when an idea needs space:
+
+$$
+\int_a^b f(x)\,dx
+$$
+
+Images can sit beside the post in the same folder:
+
+![A useful caption](diagram.png){fig-alt="Describe the important part of the diagram"}
+
+For citations, add a `bibliography` field above and write `[@citation-key]` in the body.
+
+End with the thought you want someone to carry into their next tab.
+
+<!-- When this post has a bibliography, add the following just before the closing :::
+
+## References {.references-heading}
+
+:::: {#refs}
+::::
+-->
+
+:::

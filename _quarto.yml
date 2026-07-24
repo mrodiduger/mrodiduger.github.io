@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - writing.qmd
+    - photography.qmd
+    - posts/**/index.qmd
+
+website:
+  title: "Rodi — software engineer"
+  site-url: "https://mrodiduger.github.io"
+  search: false
+
+lang: en
+date-format: "DD MMM YYYY"
+
+format:
+  html:
+    theme: none
+    css: assets/css/site.css
+    include-in-header: _includes/head.html
+    include-before-body: _includes/site-header.html
+    include-after-body: _includes/site-footer.html
+    toc: false
+    anchor-sections: false
+    title-block-banner: false
+    html-math-method: mathjax
+    page-layout: article
+
+execute:
+  freeze: auto
